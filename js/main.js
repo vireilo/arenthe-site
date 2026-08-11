@@ -204,15 +204,44 @@
       }
     });
 
-    if (window.ScrollTrigger) {
-      document.querySelectorAll('.nav-links a[href^="#"]').forEach(function (link) {
-        var target = document.querySelector(link.getAttribute('href'));
-        if (!target) return;
-        ScrollTrigger.create({
-          trigger: target, start: 'top 45%', end: 'bottom 45%',
-          onToggle: function (self) { link.classList.toggle('is-active', self.isActive); }
-        });
+    // Keep one—and only one—homepage section active. The marker sits below
+    // the fixed header and follows the document order, so long animated scenes
+    // do not leave two navigation items highlighted at the same time.
+    var sectionLinks = Array.prototype.slice.call(document.querySelectorAll('[data-nav-section]'));
+    if (sectionLinks.length) {
+      var sectionIds = [];
+      sectionLinks.forEach(function (link) {
+        var id = link.getAttribute('data-nav-section');
+        if (sectionIds.indexOf(id) === -1 && document.getElementById(id)) sectionIds.push(id);
       });
+
+      var navTicking = false;
+      function setActiveSection() {
+        navTicking = false;
+        var marker = window.scrollY + Math.max(nav.offsetHeight + 24, window.innerHeight * 0.22);
+        var activeId = sectionIds[0] || '';
+        sectionIds.forEach(function (id) {
+          var section = document.getElementById(id);
+          if (section && section.offsetTop <= marker) activeId = id;
+        });
+        sectionLinks.forEach(function (link) {
+          var isActive = link.getAttribute('data-nav-section') === activeId;
+          link.classList.toggle('is-active', isActive);
+          if (isActive) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        });
+      }
+      function requestNavUpdate() {
+        if (navTicking) return;
+        navTicking = true;
+        requestAnimationFrame(setActiveSection);
+      }
+
+      window.addEventListener('scroll', requestNavUpdate, { passive: true });
+      window.addEventListener('resize', requestNavUpdate, { passive: true });
+      window.addEventListener('load', requestNavUpdate);
+      sectionLinks.forEach(function (link) { link.addEventListener('click', requestNavUpdate); });
+      setActiveSection();
     }
   }
 

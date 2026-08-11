@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Julian Mills | Arenthe Holdings</title>
+  <link rel="icon" href="assets/logo-nav.png" type="image/png" />
+  <meta name="description" content="Julian Mills spent five years in NBA film rooms, including the 73-win Warriors season, before building a Midwest rental portfolio. Founder of Arenthe Holdings, formerly Mills &amp; Co. Real Estate." />
+  <link rel="stylesheet" href="css/styles.css?v=13" />
+  <script>document.documentElement.classList.add('js');</script>
+  <style>
+    /* About page: scoped styles built on the existing site tokens. */
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(260px, 340px) 1fr;
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: start;
+      margin: 3rem 0 3.5rem;
+    }
+    .about-photo { margin: 0; position: sticky; top: 6.5rem; }
+    .about-photo img {
+      width: 100%; height: auto; display: block;
+      border-radius: 6px;
+      border: 1px solid rgba(198, 166, 100, 0.35);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    }
+    .about-photo figcaption {
+      margin-top: 0.85rem;
+      font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--taupe);
+    }
+    .about-photo figcaption strong { color: var(--gold-bright); font-weight: 600; display: block; letter-spacing: 0.12em; }
+    .about-body h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.35rem, 2.2vw, 1.7rem);
+      font-weight: 520;
+      color: var(--gold-bright);
+      margin: 2.2rem 0 0.7rem;
+    }
+    .about-body h2:first-child { margin-top: 0; }
+    .about-body p { color: rgba(246, 243, 238, 0.82); line-height: 1.75; margin-bottom: 1rem; max-width: var(--measure); }
+    .about-quote {
+      margin: 3rem 0;
+      padding: 0 0 0 1.6rem;
+      border-left: 2px solid var(--gold);
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.35rem, 2.6vw, 1.9rem);
+      line-height: 1.45;
+      color: var(--gold-bright);
+      max-width: 34ch;
+    }
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.2rem;
+      margin: 3rem 0;
+      padding: 2rem 0;
+      border-top: 1px solid rgba(198, 166, 100, 0.25);
+      border-bottom: 1px solid rgba(198, 166, 100, 0.25);
+    }
+    .about-stat b {
+      display: block;
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+      font-weight: 560;
+      color: var(--gold-bright);
+      line-height: 1.1;
+    }
+    .about-stat span { font-size: 0.82rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--taupe); }
+    .about-path { list-style: none; margin: 1.4rem 0 0; padding: 0; }
+    .about-path li {
+      display: grid; grid-template-columns: 5.2rem 1fr; gap: 1.1rem;
+      padding: 0.62rem 0;
+      border-bottom: 1px solid rgba(246, 243, 238, 0.07);
+      color: rgba(246, 243, 238, 0.82);
+      font-size: 0.95rem; line-height: 1.5;
+    }
+    .about-path b { font-family: var(--font-display); color: var(--gold); font-weight: 560; }
+    .about-story {
+      display: grid; grid-template-columns: 1fr auto; gap: clamp(1.5rem, 4vw, 3rem);
+      align-items: center;
+      margin: 3.2rem 0 0;
+      padding: 2rem clamp(1.4rem, 3vw, 2.4rem);
+      border: 1px solid rgba(198, 166, 100, 0.28);
+      border-radius: 8px;
+      background: linear-gradient(160deg, rgba(198, 166, 100, 0.07), transparent 60%);
+    }
+    .about-story img { width: clamp(110px, 14vw, 150px); height: auto; display: block; }
+    .about-cta { margin-top: 3rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+    @media (max-width: 760px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-photo { position: static; max-width: 320px; }
+      .about-story { grid-template-columns: 1fr; }
+      .about-story img { margin: 0 auto; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav scrolled" id="nav">
+    <a href="index.html" class="nav-logo" aria-label="Arenthe Holdings — home">
+      <img src="assets/logo-nav.png" alt="Arenthe Holdings" width="200" height="50" />
+    </a>
+    <nav class="nav-desktop" aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#positioning">What We Do</a></li>
+        <li><a href="index.html#meaning">Meaning</a></li>
+        <li><a href="about.html" class="is-active" aria-current="page">About</a></li>
+        <li><a href="index.html#mission">Mission</a></li>
+        <li><a href="index.html#how">How We Work</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="nav-right">
+      <a class="nav-cta" href="lenders.html">Lender Information</a>
+      <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+        <span class="nav-toggle-line"></span>
+        <span class="nav-toggle-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu" hidden>
+    <nav aria-label="Mobile">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#positioning">What We Do</a></li>
+        <li><a href="index.html#meaning">Meaning</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="index.html#mission">Mission</a></li>
+        <li><a href="index.html#how">How We Work</a></li>
+        <li><a href="lenders.html">Lender Information</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <main id="main" class="page-main">
+    <div class="page-inner" style="max-width: 960px;">
+      <p class="section-label" data-reveal>Profile</p>
+      <h1 class="page-title" data-reveal>Julian Mills</h1>
+      <p class="page-lead" data-reveal>
+        Before he owned a single house, he spent five years in NBA film rooms. He was
+        with the Golden State Warriors the season they won 73 games.
+      </p>
+
+      <div class="about-grid">
+        <figure class="about-photo" data-reveal>
+          <img src="assets/about/julian-mills.webp"
+               srcset="assets/about/julian-mills-sm.webp 440w, assets/about/julian-mills.webp 880w"
+               sizes="(max-width: 760px) 320px, 340px"
+               width="880" height="1100" alt="Julian Mills, founder of Arenthe Holdings" />
+          <figcaption><strong>Julian Mills</strong> Founder, Arenthe Holdings</figcaption>
+        </figure>
+
+        <div class="about-body">
+          <h2 data-reveal>The film room</h2>
+          <p data-reveal>
+            Mills was born in Atlanta and raised in Colorado Springs. He studied finance
+            and accounting at Baker University in Kansas and went to work in basketball
+            the year he graduated.
+          </p>
+          <p data-reveal>
+            The first job was with Spurs Sports &amp; Entertainment in Austin. From there,
+            USA Basketball, then Golden State in the season the Warriors won 73 games,
+            then a year and a half with the Phoenix Suns. He worked with Klutch Sports in
+            2018 and the Houston Rockets in 2019, and returned to the sport once more at
+            the University of Arizona.
+          </p>
+          <p data-reveal>
+            Five years of getting other people ready to compete. By the end of it he owned
+            rental property in Ohio.
+          </p>
+
+          <h2 data-reveal>Acquisitions</h2>
+          <p data-reveal>
+            He registered Mills &amp; Co. Real Estate in October 2017 and bought his first
+            rental the following May, while still working in the league. He kept buying
+            through 2020 and 2021, mostly small multifamily and single-family properties
+            acquired below replacement cost and repositioned.
+          </p>
+          <p data-reveal>
+            From late 2019 to early 2021 he worked as a relationship banker for Bank of
+            America, which put him on the lender&rsquo;s side of credit and underwriting
+            while he was financing his own deals. He left in April 2021 to run the
+            portfolio full time. He acquired more than seventy-five units inside two
+            years, concentrated in Ohio with holdings in Texas, and has held most of
+            what he bought.
+          </p>
+
+          <h2 data-reveal>Arenthe Holdings</h2>
+          <p data-reveal>
+            The company was renamed in 2026. Arenthe, pronounced uh-REN-thee, is built on
+            the idea of a guardian of virtue, and the mandate widened with the name:
+            development, capital readiness and community opportunity across the Midwest.
+            The firm is minority-owned, with MBE certification pending.
+          </p>
+        </div>
+      </div>
+
+      <div class="about-stats" data-reveal>
+        <div class="about-stat"><b>7</b><span>Basketball organizations</span></div>
+        <div class="about-stat"><b>2017</b><span>Company founded</span></div>
+        <div class="about-stat"><b>75+</b><span>Units in two years</span></div>
+        <div class="about-stat"><b>8 yrs</b><span>Operating</span></div>
+      </div>
+
+      <h2 class="page-title" style="font-size: clamp(1.5rem, 2.6vw, 2rem);" data-reveal>The basketball years</h2>
+      <ul class="about-path" data-reveal>
+        <li><b>2014&ndash;15</b><span>Spurs Sports &amp; Entertainment, Austin</span></li>
+        <li><b>2015</b><span>USA Basketball, Colorado Springs</span></li>
+        <li><b>2015&ndash;16</b><span>Golden State Warriors, Oakland. The 73-win season.</span></li>
+        <li><b>2016&ndash;17</b><span>Phoenix Suns</span></li>
+        <li><b>2018</b><span>Klutch Sports, Cleveland</span></li>
+        <li><b>2018</b><span>USA Basketball U17</span></li>
+        <li><b>2019</b><span>Houston Rockets</span></li>
+        <li><b>2022&ndash;23</b><span>University of Arizona</span></li>
+      </ul>
+
+      <div class="about-story" data-reveal>
+        <p style="margin: 0; color: rgba(246,243,238,0.85); max-width: 52ch;">
+          The figure on the homepage trades a basketball for a house.
+          That trade actually happened.
+        </p>
+        <img src="assets/char-v5/cta-rest.webp" alt="" aria-hidden="true" width="560" height="725" loading="lazy" decoding="async" />
+      </div>
+
+      <div class="about-cta" data-reveal>
+        <a href="contact.html" class="btn btn-primary">Start a Conversation</a>
+        <a href="index.html#how" class="btn btn-ghost">How We Work</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="assets/logo-nav.png" alt="Arenthe Holdings" width="200" height="50" loading="lazy" />
+        <p>Midwest development. Excellence in action.</p>
+      </div>
+      <nav class="footer-col" aria-label="Company">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="index.html#positioning">What We Do</a></li>
+          <li><a href="about.html">About Julian</a></li>
+          <li><a href="index.html#meaning">Brand Meaning</a></li>
+          <li><a href="index.html#mission">Mission &amp; Vision</a></li>
+          <li><a href="lenders.html">Lender Information</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="Approach">
+        <h4>Approach</h4>
+        <ul>
+          <li><a href="index.html#how">How We Work</a></li>
+          <li><a href="index.html#focus">Focus Areas</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-label="Legal">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Arenthe Holdings. All rights reserved.</span>
+      <span class="footer-bottom-links">
+        <a href="privacy.html">Privacy</a>
+        <a href="contact.html">Contact</a>
+      </span>
+    </div>
+  </footer>
+
+  <script src="assets/vendor/gsap.min.js?v=3" defer></script>
+  <script src="assets/vendor/ScrollTrigger.min.js?v=3" defer></script>
+  <script src="js/main.js?v=9" defer></script>
+</body>
+</html>

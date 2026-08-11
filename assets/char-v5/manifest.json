@@ -1,0 +1,25 @@
+{
+ "hero": {
+  "entrance_frames": 120,
+  "idle_frames": 60,
+  "fps": 12,
+  "entrance_seconds": 10.0,
+  "idle_seconds": 5.0,
+  "width": 470
+ },
+ "story": {
+  "desktop_frames": 61,
+  "mobile_frames": 41,
+  "desktop_width": 430,
+  "mobile_width": 260
+ },
+ "bytes": {
+  "hero_entrance": 2376746,
+  "hero_idle": 1439590,
+  "story_desk": 1951356,
+  "story_mob": 683750,
+  "total": 6451442,
+  "files": 282
+ },
+ "note": "Rendered from Gate C with the final front-of-jamb correction and the approved Gate D R2 frame sets. No flattened original artwork is used; char-full.webp and neutral-reference.png are not part of this set."
+}

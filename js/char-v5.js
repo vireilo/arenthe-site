@@ -88,6 +88,76 @@
     return (this.img[i] && this.img[i].src) || this.urls[i];
   };
 
+  /* Motion table: how far the drawing moves between each pair of frames,
+   * measured offline (assets/char-v5/motion.json). Slow passages are blended
+   * between frames at the display's refresh rate, so breathing, settles and
+   * scroll scrubbing read as continuous motion. Fast actions keep their drawn
+   * poses: blending two distant drawings produces a double image, not motion. */
+  var MOTION = null;
+  (function () {
+    try {
+      var x = new XMLHttpRequest();
+      x.open('GET', BASE + 'motion.json' + ASSET_VER, true);
+      x.onload = function () { try { MOTION = JSON.parse(x.responseText); } catch (e) {} };
+      x.send();
+    } catch (e) {}
+  })();
+  var BLEND_LO = 1.0, BLEND_HI = 3.5;
+
+  /* Paints a frame set onto a canvas at a fractional position. Falls back to
+   * swapping the <img> source if a canvas is unavailable. */
+  function Painter(img, dir) {
+    this.img = img; this.dir = dir; this.cv = null; this.ctx = null; this.live = false;
+    try {
+      var cv = document.createElement('canvas');
+      var ctx = cv.getContext && cv.getContext('2d');
+      if (ctx) {
+        cv.className = img.className;
+        cv.setAttribute('aria-hidden', 'true');
+        this.cv = cv; this.ctx = ctx;
+      }
+    } catch (e) {}
+  }
+  Painter.prototype.ready = function (im) { return im && im.complete && im.naturalWidth > 0; };
+  Painter.prototype.paint = function (set, pos, loop, dir) {
+    var n = set.urls.length;
+    var i = Math.floor(pos), t = pos - i;
+    if (loop) i = ((i % n) + n) % n; else if (i >= n - 1) { i = n - 1; t = 0; }
+    var j = loop ? (i + 1) % n : Math.min(i + 1, n - 1);
+    var a = set.img[i], b = set.img[j];
+    if (!this.ready(a)) return false;
+    if (!this.ctx) {                      // fallback: nearest frame on the <img>
+      var src = set.src(t >= 0.5 ? j : i);
+      if (this.img.getAttribute('src') !== src) this.img.src = src;
+      return true;
+    }
+    var cv = this.cv, ctx = this.ctx;
+    if (cv.width !== a.naturalWidth || cv.height !== a.naturalHeight) {
+      cv.width = a.naturalWidth; cv.height = a.naturalHeight;
+    }
+    if (!this.live) {
+      this.img.parentNode.insertBefore(cv, this.img.nextSibling);
+      this.img.style.display = 'none';
+      this.live = true;
+    }
+    // how much of the gap between these two drawings may be blended
+    var d = (MOTION && MOTION[dir || this.dir] && MOTION[dir || this.dir][i]) || 0;
+    var w = MOTION ? clamp(1 - (d - BLEND_LO) / (BLEND_HI - BLEND_LO), 0, 1) : 0;
+    var h = 0.5 * w;
+    var k = h < 0.01 ? (t >= 0.5 ? 1 : 0) : clamp((t - (0.5 - h)) / (2 * h), 0, 1);
+    if (!this.ready(b)) k = 0;
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.globalAlpha = 1;
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    if (k <= 0.001) { ctx.drawImage(a, 0, 0); return true; }
+    if (k >= 0.999) { ctx.drawImage(b, 0, 0); return true; }
+    ctx.globalAlpha = 1 - k; ctx.drawImage(a, 0, 0);
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.globalAlpha = k; ctx.drawImage(b, 0, 0);
+    ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+    return true;
+  };
+
   /* ------------------------------------------------------------------ HERO */
   function initHero() {
     var box = document.getElementById('heroChar');
@@ -116,23 +186,25 @@
     var entrance = null;
     var state = { mode: 'rest', i: 0, timer: 0, visible: true, done: false };
 
-    function show(set, i) {
-      var s = set.src(i);
-      if (img.getAttribute('src') !== s) img.src = s;
-    }
-    function stop() { if (state.timer) { clearInterval(state.timer); state.timer = 0; } }
+    var painter = new Painter(img, 'hero-idle');
+    function show(set, pos, loop, dir) { painter.paint(set, pos, loop, dir); }
+    function stop() { if (state.timer) { cancelAnimationFrame(state.timer); state.timer = 0; } }
 
     function runIdle() {
       state.mode = 'idle';
       stop();
       idle.load(0, HERO_IDLE, function () {
         if (state.mode !== 'idle') return;
-        show(idle, state.i % HERO_IDLE);
+        show(idle, state.i % HERO_IDLE, true, 'hero-idle');
         if (reduced || !state.visible) return;
-        state.timer = setInterval(function () {
-          state.i = (state.i + 1) % HERO_IDLE;
-          show(idle, state.i);
-        }, FRAME_MS);
+        var t0 = performance.now() - state.i * FRAME_MS;
+        (function tick(now) {
+          if (state.mode !== 'idle') return;
+          var pos = ((now - t0) / FRAME_MS) % HERO_IDLE;
+          state.i = pos;
+          show(idle, pos, true, 'hero-idle');
+          state.timer = requestAnimationFrame(tick);
+        })(performance.now());
       });
     }
 
@@ -163,12 +235,18 @@
         entrance.load(14, HERO_ACTIVE);
         idle.load(0, 6);
         state.i = 0;
-        state.timer = setInterval(function () {
-          if (!state.visible) return;                 // paused offscreen
-          show(entrance, state.i);
-          state.i++;
-          if (state.i >= HERO_ACTIVE) { stop(); finishToIdle(); }
-        }, FRAME_MS);
+        var last = performance.now();
+        (function tick(now) {
+          if (state.mode !== 'entrance' || !entrance) return;
+          var dt = Math.min(now - last, 100); last = now;
+          var next = state.i + dt / FRAME_MS;
+          // hold the playhead if the frame it needs has not streamed in yet
+          var need = entrance.img[Math.min(Math.floor(next) + 1, HERO_ACTIVE - 1)];
+          if (state.visible && need && need.complete) state.i = next;
+          if (state.i >= HERO_ACTIVE - 1) { show(entrance, HERO_ACTIVE - 1, false, 'hero-entrance'); stop(); finishToIdle(); return; }
+          show(entrance, state.i, false, 'hero-entrance');
+          state.timer = requestAnimationFrame(tick);
+        })(last);
         });
       });
     }
@@ -195,7 +273,7 @@
 
     if (reduced) {
       if (skip) skip.hidden = true;
-      show(idle, 0); idle.load(0, 1); markHeroSeen(); return { state: state };
+      idle.load(0, 1, function () { show(idle, 0, false, 'hero-idle'); }); markHeroSeen(); return { state: state };
     }
     /* Gate E R2: the complete approved Gate C performance plays on every normal
      * load and reload. (It previously played once per session.) */
@@ -254,7 +332,8 @@
       return 0;
     }
 
-    var st = { active: false, raf: 0, last: -1, loaded: false };
+    var st = { active: false, raf: 0, last: -1, loaded: false, pos: -1 };
+    var painter = new Painter(img, 'story-desk');
 
     function which() { return mq.matches ? 'mob' : 'desk'; }
     function count() { return which() === 'mob' ? STORY_M : STORY_D; }
@@ -274,9 +353,18 @@
       var p = progress();
       var set = sets[which()];
       var n = count();
-      var f = clamp(Math.round(p * (n - 1)), 0, n - 1);
-      var key = which() + f;
-      if (key !== st.last) { img.src = set.src(f); st.last = key; }
+      /* The playhead eases toward the scroll position instead of jumping to it,
+       * and lands between frames, so the scrub glides at any scroll speed. */
+      var target = clamp(p * (n - 1), 0, n - 1);
+      if (st.pos < 0 || st.set !== which() || reduced) st.pos = target;
+      else st.pos += (target - st.pos) * 0.16;
+      if (Math.abs(target - st.pos) < 0.004) st.pos = target;
+      st.set = which();
+      var key = which() + st.pos.toFixed(3);
+      if (key !== st.last) {
+        if (painter.paint(set, st.pos, false, which() === 'mob' ? 'story-mob' : 'story-desk')) st.last = key;
+      }
+      if (st.pos !== target && !st.raf) st.raf = requestAnimationFrame(apply);
       var starts = which() === 'mob' ? BEAT_M : BEAT_D;
       for (var i = 0; i < 3; i++) {
         var el = lines[i];

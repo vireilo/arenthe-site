@@ -35,7 +35,7 @@ An owner-operator turned developer: a sponsor who acquired and held a residentia
 - Animation runs on vendored GSAP and ScrollTrigger. File names are case-sensitive in production.
 - The contact form must keep working as a Netlify Form through any change.
 - Fonts are self-hosted (Fraunces and Inter).
-- **Content rules**: figures are counts, years, square feet and similar physical facts. Renderings are labeled conceptual. MBE certification is described as pending or in process until granted.
+- **Content rules**: figures are counts, years, square feet and similar physical facts. Renderings are labeled conceptual. Arenthe Holdings is a certified Minority Business Enterprise (confirmed 2026-11-20); the certifying body is not yet recorded here.
 - **Undecided**: confirm that brand names used on the Projects page are cleared for publication. Confirm the project's public spelling ("Marque Center").
 
 ## Brand Commitments
@@ -51,7 +51,7 @@ An owner-operator turned developer: a sponsor who acquired and held a residentia
 - Founder history as published on `about.html`, including the basketball years and time as a relationship banker.
 - Marque Center facts as published: 16,000 square feet, 10 retail suites, a 1,545 square foot drive-through building, 8 EV charging stalls, and a conceptual rendering.
 - Character frame sequences in `assets/char-v5`.
-- **Absent, do not fabricate**: financial statements or figures, lender or partner logos, testimonials, completed-development case studies, a granted MBE certification.
+- **Absent, do not fabricate**: financial statements or figures, lender or partner logos, testimonials, completed-development case studies.
 
 ## Product Principles
 

@@ -8,7 +8,7 @@
   <meta name="description" content="Arenthe Holdings is a Midwest real estate development and investment company focused on disciplined execution, capital readiness, and community opportunity." />
   <link rel="preload" href="assets/fonts/fraunces-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="css/site.css?v=2" />
+  <link rel="stylesheet" href="css/site.css?v=3" />
   <link rel="preload" as="image" href="assets/marque-center-aerial.webp" />
 </head>
 <body>
@@ -39,15 +39,6 @@
             <a href="#positioning" class="btn btn-ink">What we do</a>
             <a href="contact.html" class="text-link">Start a conversation</a>
           </div>
-        </div>
-        <!-- The character: decorative. The door opens, he walks out, the ball becomes a house. -->
-        <div class="stage" aria-hidden="true">
-          <div class="char-rig" id="heroChar">
-            <div class="char-bob" id="heroCharBob">
-              <img class="char-frame" id="heroPoster" src="assets/char-v6/door.webp?v=7" width="729" height="500" alt="" decoding="async" />
-            </div>
-          </div>
-          <button type="button" class="hero-skip" id="skipIntro" hidden>Skip</button>
         </div>
       </div>
       <figure class="hero-figure">
@@ -105,6 +96,24 @@
     </div>
   </section>
 
+  <section class="sec news" id="news">
+    <div class="in">
+      <div class="cols">
+        <figure class="clip" data-r>
+          <video controls preload="none" playsinline poster="assets/news/harrison-township-grant-poster.jpg" width="1280" height="720">
+            <source src="assets/news/harrison-township-grant-news-center-7.mp4" type="video/mp4" />
+          </video>
+          <figcaption>News Center 7, WHIO-TV Dayton. 1 min 59 sec, with sound.</figcaption>
+        </figure>
+        <div data-r style="--i:1">
+          <p class="status">In the news</p>
+          <h2>A grant to clear the way on North Dixie Drive</h2>
+          <p class="txt">Harrison Township was awarded $195,000 in Montgomery County community funding to clear aging buildings along North Dixie Drive, the corridor where Marque Center is planned. News Center 7 spoke with Arenthe founder Julian Mills at the site.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="sec meaning" id="meaning">
     <div class="in">
       <div class="cols">
@@ -117,10 +126,18 @@
     </div>
   </section>
 
-  <section class="sec dark quote" id="approach">
-    <div class="in">
-      <blockquote data-r>“Every project starts with one decision. Communities aren’t built overnight.”</blockquote>
-      <p class="after" data-r style="--i:1">Real estate development, capital readiness, and community opportunity in the Midwest.</p>
+  <!-- Scroll scene: scrolling plays his performance. The door opens, he walks out,
+       the basketball becomes a house, while three lines pass beside him. -->
+  <section class="transform" id="transform" aria-label="From one decision to a community">
+    <div class="transform-pin" id="transformPin">
+      <div class="transform-stage" aria-hidden="true">
+        <div class="tchar-rig" id="tChar"></div>
+      </div>
+      <div class="transform-copy">
+        <p class="tline" id="tLine1">“Every project starts with one decision.</p>
+        <p class="tline" id="tLine2">Communities aren’t built overnight.”</p>
+        <p class="tline tline--handoff" id="tLine3">Real estate development, capital readiness, and community opportunity in the Midwest.</p>
+      </div>
     </div>
   </section>
 
@@ -132,7 +149,7 @@
       </div>
       <ul class="pairs">
           <li data-r style="--i:0"><h3>Real Estate Development</h3><p>Mixed-use, commercial, and community-serving projects, from site control through delivery, with attention to design, financing, and local context.</p></li>
-          <li data-r style="--i:1"><h3>MBE &amp; Capital Readiness</h3><p>Our MBE enterprise application is in process. We structure ownership and project readiness to support financing, grants, and partnership pathways.</p></li>
+          <li data-r style="--i:1"><h3>MBE &amp; Capital Readiness</h3><p>Arenthe Holdings is a certified Minority Business Enterprise. We structure ownership and project readiness to support financing, grants, and partnership pathways.</p></li>
           <li data-r style="--i:2"><h3>Community Opportunity</h3><p>Projects that strengthen the places they inhabit: local employment, activated space, and development that communities can stand behind.</p></li>
           <li data-r style="--i:3"><h3>Disciplined Execution</h3><p>Clear scopes, honest timelines, and accountability. Excellence in action is the operating standard, not a marketing line.</p></li>
       </ul>
@@ -217,7 +234,7 @@
     <div class="foot-base">© 2026 Arenthe Holdings. All rights reserved.</div>
   </footer>
 
-  <script src="js/char-v5.js?v=18" defer></script>
+  <script src="js/char-v5.js?v=19" defer></script>
   <script src="js/site.js?v=1" defer></script>
 </body>
 </html>

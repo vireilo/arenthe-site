@@ -27,11 +27,16 @@
   var BASE = 'assets/char-v6/';
   var ASSET_VER = '?v=6';
   var FPS = 24, FRAME_MS = 1000 / 24;   // v6: generated at 24 frames a second
-  var HERO_ACTIVE = 120;          // 10.00 s
+  var HERO_ACTIVE = 124;          // entrance through the door, 5.2 s
+  var HERO_TRICK = 124;           // basketball becomes a house, 5.2 s
+  /* Entrance frames carry the door, so they are wider than the others. Every
+   * hero frame is painted onto one canvas of the wide size; the narrower sets
+   * are drawn at an offset so the character never shifts between them. */
+  var WIDE_W = 561, WIDE_OFF = 175;
   var HERO_IDLE = 123;            // 5.1 s loop
   /* v6 interim: the new entrance performance is not produced yet, so the hero
    * opens on the living idle. Set to true once assets/char-v6/entrance exists. */
-  var HAS_ENTRANCE = false;
+  var HAS_ENTRANCE = true;
   var STORY_D = 123, STORY_M = 123;
   var MOBILE_Q = '(max-width: 700px)';
   var SEEN_KEY = 'arenthe.heroSeen';
@@ -111,6 +116,7 @@
    * swapping the <img> source if a canvas is unavailable. */
   function Painter(img, dir) {
     this.img = img; this.dir = dir; this.cv = null; this.ctx = null; this.live = false;
+    this.wide = false; this.under = null; this.underAlpha = 0;
     try {
       var cv = document.createElement('canvas');
       var ctx = cv.getContext && cv.getContext('2d');
@@ -135,8 +141,10 @@
       return true;
     }
     var cv = this.cv, ctx = this.ctx;
-    if (cv.width !== a.naturalWidth || cv.height !== a.naturalHeight) {
-      cv.width = a.naturalWidth; cv.height = a.naturalHeight;
+    var cw = this.wide ? WIDE_W : a.naturalWidth;
+    var ox = (this.wide && a.naturalWidth < WIDE_W) ? WIDE_OFF : 0;
+    if (cv.width !== cw || cv.height !== a.naturalHeight) {
+      cv.width = cw; cv.height = a.naturalHeight;
     }
     if (!this.live) {
       this.img.parentNode.insertBefore(cv, this.img.nextSibling);
@@ -152,12 +160,19 @@
     ctx.globalCompositeOperation = 'source-over';
     ctx.globalAlpha = 1;
     ctx.clearRect(0, 0, cv.width, cv.height);
-    if (k <= 0.001) { ctx.drawImage(a, 0, 0); return true; }
-    if (k >= 0.999) { ctx.drawImage(b, 0, 0); return true; }
-    ctx.globalAlpha = 1 - k; ctx.drawImage(a, 0, 0);
-    ctx.globalCompositeOperation = 'lighter';
-    ctx.globalAlpha = k; ctx.drawImage(b, 0, 0);
-    ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+    var under = (this.under && this.underAlpha > 0.004 && this.ready(this.under)) ? this.under : null;
+    if (!under) {
+      if (k <= 0.001) { ctx.drawImage(a, ox, 0); return true; }
+      if (k >= 0.999) { ctx.drawImage(b, ox, 0); return true; }
+      ctx.globalAlpha = 1 - k; ctx.drawImage(a, ox, 0);
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.globalAlpha = k; ctx.drawImage(b, ox, 0);
+      ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+      return true;
+    }
+    // with a layer underneath (the door as it fades), draw the nearest frame over it
+    ctx.globalAlpha = this.underAlpha; ctx.drawImage(under, 0, 0);
+    ctx.globalAlpha = 1; ctx.drawImage(k >= 0.5 ? b : a, ox, 0);
     return true;
   };
 
@@ -177,7 +192,7 @@
       img.setAttribute('aria-hidden', 'true');
       img.decoding = 'async';
       img.width = 470; img.height = 465;
-      img.src = BASE + 'rest.webp' + ASSET_VER;
+      img.src = BASE + 'door.webp' + ASSET_VER;
       box.appendChild(img);
     }
     box.classList.add('rig-on');
@@ -190,6 +205,9 @@
     var state = { mode: 'rest', i: 0, timer: 0, visible: true, done: false };
 
     var painter = new Painter(img, 'idle');
+    painter.wide = true;
+    var trick = new FrameSet('trick', 't', HERO_TRICK, 3);
+    var door = new Image(); door.decoding = 'async';
     function show(set, pos, loop, dir) { painter.paint(set, pos, loop, dir); }
     function stop() { if (state.timer) { cancelAnimationFrame(state.timer); state.timer = 0; } }
 
@@ -223,10 +241,30 @@
       if (entrance) { entrance.img.length = 0; entrance = null; }
     }
 
+    /* The trick: the ball goes up, a puff, a house comes down. The door stays
+     * for a beat as its own layer, then fades while he performs. */
+    function runTrick() {
+      state.mode = 'trick';
+      state.i = 0;
+      var last = performance.now();
+      (function tick(now) {
+        if (state.mode !== 'trick') return;
+        var dt = Math.min(now - last, 100); last = now;
+        var next = state.i + dt / FRAME_MS;
+        var need = trick.img[Math.min(Math.floor(next) + 1, HERO_TRICK - 1)];
+        if (state.visible && need && need.complete) state.i = next;
+        painter.under = door;
+        painter.underAlpha = clamp(1 - (state.i - 8) / 30, 0, 1);
+        if (state.i >= HERO_TRICK - 1) { painter.under = null; show(trick, HERO_TRICK - 1, false, 'trick'); stop(); finishToIdle(); return; }
+        show(trick, state.i, false, 'trick');
+        state.timer = requestAnimationFrame(tick);
+      })(last);
+    }
+
     function runEntrance() {
       state.mode = 'entrance';
       if (skip) skip.hidden = false;
-      entrance = new FrameSet('hero-entrance', 'e', HERO_ACTIVE, 3);
+      entrance = new FrameSet('entrance', 'e', HERO_ACTIVE, 3);
       // only the opening second is required before we start; the rest streams in
       /* Load only the opening buffer, then hold the poster until frame 0 has
        * decoded. The remaining frames stream in behind the playhead — the
@@ -236,6 +274,8 @@
         entrance.decoded(0, function () {
         if (state.mode !== 'entrance') return;
         entrance.load(14, HERO_ACTIVE);
+        trick.load(0, HERO_TRICK);
+        door.src = BASE + 'door.webp' + ASSET_VER;
         idle.load(0, 6);
         state.i = 0;
         var last = performance.now();
@@ -246,8 +286,8 @@
           // hold the playhead if the frame it needs has not streamed in yet
           var need = entrance.img[Math.min(Math.floor(next) + 1, HERO_ACTIVE - 1)];
           if (state.visible && need && need.complete) state.i = next;
-          if (state.i >= HERO_ACTIVE - 1) { show(entrance, HERO_ACTIVE - 1, false, 'hero-entrance'); stop(); finishToIdle(); return; }
-          show(entrance, state.i, false, 'hero-entrance');
+          if (state.i >= HERO_ACTIVE - 1) { show(entrance, HERO_ACTIVE - 1, false, 'entrance'); stop(); runTrick(); return; }
+          show(entrance, state.i, false, 'entrance');
           state.timer = requestAnimationFrame(tick);
         })(last);
         });
@@ -257,7 +297,7 @@
     /* Abandoning the entrance must resolve to the final layered state, never to
      * a half-played pose. */
     function resolveNow() {
-      if (state.mode === 'entrance') { stop(); finishToIdle(); }
+      if (state.mode === 'entrance' || state.mode === 'trick') { stop(); painter.under = null; finishToIdle(); }
     }
 
     if (skip) skip.addEventListener('click', resolveNow);
@@ -267,7 +307,7 @@
       state.visible = vis;
       if (!vis) {
         stop();
-        if (state.mode === 'entrance') resolveNow();   // scrolled away mid-entrance
+        if (state.mode === 'entrance' || state.mode === 'trick') resolveNow();   // scrolled away mid-entrance
       } else if (state.mode === 'idle' && !state.timer && !reduced) {
         runIdle();                                     // resume only idle motion
       }

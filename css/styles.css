@@ -1720,4 +1720,6 @@ html.js .char-rig { opacity: 1; }
    Character v6 — regenerated performance. Frames are cropped to the character
    and padded to the rig's own 1836:2376 box, so they fill it with no offset.
    ========================================================================== */
-#heroChar .char-frame { width: 100%; margin-left: 0; max-width: 100%; }
+/* Hero frames are painted on a canvas 561 wide whose right-hand 386 is the
+   character's own box; the extra 175 on the left is the doorway. */
+#heroChar .char-frame { width: 145.337%; margin-left: -45.337%; max-width: none; }

@@ -54,7 +54,8 @@ a{color:inherit} img{max-width:100%;height:auto;display:block}
 .hero .lead{margin-top:1.6rem;color:var(--ink-2);max-width:26em}
 .actions{display:flex;flex-wrap:wrap;gap:1.4rem;align-items:center;margin-top:1.8rem}
 .hero-figure{position:relative;align-self:stretch;display:flex;flex-direction:column}
-.hero-figure img{width:100%;height:100%;min-height:22rem;object-fit:cover;flex:1}
+.hero-figure picture{display:block;overflow:hidden;flex:1;min-height:22rem}
+.hero-figure img{width:100%;height:100%;object-fit:cover;transform-origin:50% 60%;will-change:transform}
 .hero-figure figcaption{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.4rem 1.5rem;padding:.8rem 0 0;font-size:var(--t-small);color:var(--ink-3)}
 .hero-figure figcaption strong{color:var(--ink);font-weight:600}
 .proof{max-width:var(--max);margin:0 auto;border-top:1px solid var(--ink)}
@@ -169,7 +170,7 @@ html:not(.js) .transform{height:auto} html:not(.js) .transform-pin{position:stat
   .steps li::before{left:-1.6rem;top:.35rem}
   .cells{grid-template-columns:1fr}
   .lines li,.lines.keyed li,.press a{grid-template-columns:1fr}
-  .hero-figure img{min-height:0;aspect-ratio:16/10}
+  .hero-figure picture{min-height:0;aspect-ratio:16/10}
   .proof ul,.facts{grid-template-columns:1fr 1fr}
   .proof li:nth-child(3){padding-left:0}.proof li:nth-child(3)::before{display:none}
   .close .act{justify-self:start}
@@ -183,12 +184,22 @@ html:not(.js) .transform{height:auto} html:not(.js) .transform-pin{position:stat
 @media (prefers-reduced-motion:no-preference){
   .hero h1 span{animation:rise .9s var(--ease) both}.hero h1 span:nth-child(2){animation-delay:.08s}
   .hero .pron,.hero .lead,.hero .actions{animation:fade .8s ease .35s both}
-  .hero-figure img{animation:reveal 1.3s var(--ease) .1s both}
+  .hero-figure picture{animation:reveal 1.3s var(--ease) .1s both}
   @keyframes rise{from{opacity:0;transform:translateY(.4em)}to{opacity:1;transform:none}}
   @keyframes fade{from{opacity:0}to{opacity:1}}
   @keyframes reveal{from{clip-path:inset(0 0 0 100%)}to{clip-path:inset(0)}}
   .js [data-r]{opacity:0;transform:translateY(1.4rem);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:calc(var(--i,0)*90ms)}
   .js [data-r].seen{opacity:1;transform:none}
+  /* read-along: words darken as the paragraph moves up the screen */
+  .js [data-read] .w{color:rgba(26,23,19,.2);transition:color .4s ease}
+  .js .dark [data-read] .w{color:rgba(247,245,240,.25)}
+  .js [data-read] .w.on{color:inherit}
+  .js [data-scale]{transform-origin:50% 100%;will-change:transform}
+  .js .steps li{opacity:0;transform:translateY(1rem);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:calc(.25s + var(--i,0)*.22s)}
+  .js .steps li::before{transform:scale(0);transition:transform .5s var(--ease);transition-delay:calc(.25s + var(--i,0)*.22s)}
+  .js .steps.seen li{opacity:1;transform:none}
+  .js .steps.seen li::before{transform:scale(1)}
+  .js .cells li{transition-delay:calc(var(--i,0)*120ms)}
   .js .steps::before{transform:scaleX(0);transform-origin:left;transition:transform 1.4s var(--ease)}
   .js .steps.seen::before{transform:scaleX(1)}
 }

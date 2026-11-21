@@ -59,3 +59,7 @@ An owner-operator turned developer: a sponsor who acquired and held a residentia
 2. **Facts over adjectives.** Dates, counts and documents carry the case.
 3. **Label what is not final.** Renderings, pending certifications and projects in development are marked as such.
 4. **Prepared, not promotional.** The tone is of a borrower who has done this before and has the file ready.
+
+## Certifications
+
+Arenthe Holdings LLC is certified as a Minority Business Enterprise by the Ohio Department of Development, effective September 2, 2026 through September 2, 2028 (certification letter on file with the owner; the letter itself is not published). Lender Information is unlinked from the site for now by the owner's decision.

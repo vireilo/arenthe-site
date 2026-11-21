@@ -24,12 +24,20 @@
    * handshake the previous rig used, so no change to main.js is required. */
   window.__rigActive = true;
 
-  var BASE = 'assets/char-v5/';
-  var ASSET_VER = '?v=5';
-  var FPS = 12, FRAME_MS = 1000 / 12;
-  var HERO_ACTIVE = 120;          // 10.00 s
-  var HERO_IDLE = 60;             // 5.00 s
-  var STORY_D = 61, STORY_M = 41;
+  var BASE = 'assets/char-v6/';
+  var ASSET_VER = '?v=7';
+  var FPS = 24, FRAME_MS = 1000 / 24;   // v6: generated at 24 frames a second
+  var HERO_ACTIVE = 182;          // entrance through the door, 7.6 s
+  var HERO_TRICK = 124;           // basketball becomes a house, 5.2 s
+  /* Entrance frames carry the door, so they are wider than the others. Every
+   * hero frame is painted onto one canvas of the wide size; the narrower sets
+   * are drawn at an offset so the character never shifts between them. */
+  var WIDE_W = 729, WIDE_OFF = 175;
+  var HERO_IDLE = 123;            // 5.1 s loop
+  /* v6 interim: the new entrance performance is not produced yet, so the hero
+   * opens on the living idle. Set to true once assets/char-v6/entrance exists. */
+  var HAS_ENTRANCE = true;
+  var STORY_D = 123, STORY_M = 123;
   var MOBILE_Q = '(max-width: 700px)';
   var SEEN_KEY = 'arenthe.heroSeen';
 
@@ -88,6 +96,86 @@
     return (this.img[i] && this.img[i].src) || this.urls[i];
   };
 
+  /* Motion table: how far the drawing moves between each pair of frames,
+   * measured offline (assets/char-v6/motion.json). Slow passages are blended
+   * between frames at the display's refresh rate, so breathing, settles and
+   * scroll scrubbing read as continuous motion. Fast actions keep their drawn
+   * poses: blending two distant drawings produces a double image, not motion. */
+  var MOTION = null;
+  (function () {
+    try {
+      var x = new XMLHttpRequest();
+      x.open('GET', BASE + 'motion.json' + ASSET_VER, true);
+      x.onload = function () { try { MOTION = JSON.parse(x.responseText); } catch (e) {} };
+      x.send();
+    } catch (e) {}
+  })();
+  var BLEND_LO = 1.0, BLEND_HI = 3.5;
+
+  /* Paints a frame set onto a canvas at a fractional position. Falls back to
+   * swapping the <img> source if a canvas is unavailable. */
+  function Painter(img, dir) {
+    this.img = img; this.dir = dir; this.cv = null; this.ctx = null; this.live = false;
+    this.wide = false; this.under = null; this.underAlpha = 0;
+    try {
+      var cv = document.createElement('canvas');
+      var ctx = cv.getContext && cv.getContext('2d');
+      if (ctx) {
+        cv.className = img.className;
+        cv.setAttribute('aria-hidden', 'true');
+        this.cv = cv; this.ctx = ctx;
+      }
+    } catch (e) {}
+  }
+  Painter.prototype.ready = function (im) { return im && im.complete && im.naturalWidth > 0; };
+  Painter.prototype.paint = function (set, pos, loop, dir) {
+    var n = set.urls.length;
+    var i = Math.floor(pos), t = pos - i;
+    if (loop) i = ((i % n) + n) % n; else if (i >= n - 1) { i = n - 1; t = 0; }
+    var j = loop ? (i + 1) % n : Math.min(i + 1, n - 1);
+    var a = set.img[i], b = set.img[j];
+    if (!this.ready(a)) return false;
+    if (!this.ctx) {                      // fallback: nearest frame on the <img>
+      var src = set.src(t >= 0.5 ? j : i);
+      if (this.img.getAttribute('src') !== src) this.img.src = src;
+      return true;
+    }
+    var cv = this.cv, ctx = this.ctx;
+    var cw = this.wide ? WIDE_W : a.naturalWidth;
+    var ox = (this.wide && a.naturalWidth < WIDE_W) ? WIDE_OFF : 0;
+    if (cv.width !== cw || cv.height !== a.naturalHeight) {
+      cv.width = cw; cv.height = a.naturalHeight;
+    }
+    if (!this.live) {
+      this.img.parentNode.insertBefore(cv, this.img.nextSibling);
+      this.img.style.display = 'none';
+      this.live = true;
+    }
+    // how much of the gap between these two drawings may be blended
+    var d = (MOTION && MOTION[dir || this.dir] && MOTION[dir || this.dir][i]) || 0;
+    var w = MOTION ? clamp(1 - (d - BLEND_LO) / (BLEND_HI - BLEND_LO), 0, 1) : 0;
+    var h = 0.5 * w;
+    var k = h < 0.01 ? (t >= 0.5 ? 1 : 0) : clamp((t - (0.5 - h)) / (2 * h), 0, 1);
+    if (!this.ready(b)) k = 0;
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.globalAlpha = 1;
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    var under = (this.under && this.underAlpha > 0.004 && this.ready(this.under)) ? this.under : null;
+    if (!under) {
+      if (k <= 0.001) { ctx.drawImage(a, ox, 0); return true; }
+      if (k >= 0.999) { ctx.drawImage(b, ox, 0); return true; }
+      ctx.globalAlpha = 1 - k; ctx.drawImage(a, ox, 0);
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.globalAlpha = k; ctx.drawImage(b, ox, 0);
+      ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+      return true;
+    }
+    // with a layer underneath (the door as it fades), draw the nearest frame over it
+    ctx.globalAlpha = this.underAlpha; ctx.drawImage(under, 0, 0);
+    ctx.globalAlpha = 1; ctx.drawImage(k >= 0.5 ? b : a, ox, 0);
+    return true;
+  };
+
   /* ------------------------------------------------------------------ HERO */
   function initHero() {
     var box = document.getElementById('heroChar');
@@ -104,7 +192,7 @@
       img.setAttribute('aria-hidden', 'true');
       img.decoding = 'async';
       img.width = 470; img.height = 465;
-      img.src = BASE + 'hero-entrance/e000.webp' + ASSET_VER;
+      img.src = BASE + 'door.webp' + ASSET_VER;
       box.appendChild(img);
     }
     box.classList.add('rig-on');
@@ -112,27 +200,32 @@
     var legacy = document.getElementById('charLegacy');
     if (legacy && legacy.parentNode) legacy.parentNode.removeChild(legacy);
 
-    var idle = new FrameSet('hero-idle', 'i', HERO_IDLE, 2);
+    var idle = new FrameSet('idle', 'i', HERO_IDLE, 3);
     var entrance = null;
     var state = { mode: 'rest', i: 0, timer: 0, visible: true, done: false };
 
-    function show(set, i) {
-      var s = set.src(i);
-      if (img.getAttribute('src') !== s) img.src = s;
-    }
-    function stop() { if (state.timer) { clearInterval(state.timer); state.timer = 0; } }
+    var painter = new Painter(img, 'idle');
+    painter.wide = true;
+    var trick = new FrameSet('trick', 't', HERO_TRICK, 3);
+    var door = new Image(); door.decoding = 'async';
+    function show(set, pos, loop, dir) { painter.paint(set, pos, loop, dir); }
+    function stop() { if (state.timer) { cancelAnimationFrame(state.timer); state.timer = 0; } }
 
     function runIdle() {
       state.mode = 'idle';
       stop();
       idle.load(0, HERO_IDLE, function () {
         if (state.mode !== 'idle') return;
-        show(idle, state.i % HERO_IDLE);
+        show(idle, state.i % HERO_IDLE, true, 'idle');
         if (reduced || !state.visible) return;
-        state.timer = setInterval(function () {
-          state.i = (state.i + 1) % HERO_IDLE;
-          show(idle, state.i);
-        }, FRAME_MS);
+        var t0 = performance.now() - state.i * FRAME_MS;
+        (function tick(now) {
+          if (state.mode !== 'idle') return;
+          var pos = ((now - t0) / FRAME_MS) % HERO_IDLE;
+          state.i = pos;
+          show(idle, pos, true, 'idle');
+          state.timer = requestAnimationFrame(tick);
+        })(performance.now());
       });
     }
 
@@ -148,10 +241,30 @@
       if (entrance) { entrance.img.length = 0; entrance = null; }
     }
 
+    /* The trick: the ball goes up, a puff, a house comes down. The door stays
+     * for a beat as its own layer, then fades while he performs. */
+    function runTrick() {
+      state.mode = 'trick';
+      state.i = 0;
+      var last = performance.now();
+      (function tick(now) {
+        if (state.mode !== 'trick') return;
+        var dt = Math.min(now - last, 100); last = now;
+        var next = state.i + dt / FRAME_MS;
+        var need = trick.img[Math.min(Math.floor(next) + 1, HERO_TRICK - 1)];
+        if (state.visible && need && need.complete) state.i = next;
+        painter.under = door;
+        painter.underAlpha = clamp(1 - (state.i - 8) / 30, 0, 1);
+        if (state.i >= HERO_TRICK - 1) { painter.under = null; show(trick, HERO_TRICK - 1, false, 'trick'); stop(); finishToIdle(); return; }
+        show(trick, state.i, false, 'trick');
+        state.timer = requestAnimationFrame(tick);
+      })(last);
+    }
+
     function runEntrance() {
       state.mode = 'entrance';
       if (skip) skip.hidden = false;
-      entrance = new FrameSet('hero-entrance', 'e', HERO_ACTIVE, 3);
+      entrance = new FrameSet('entrance', 'e', HERO_ACTIVE, 3);
       // only the opening second is required before we start; the rest streams in
       /* Load only the opening buffer, then hold the poster until frame 0 has
        * decoded. The remaining frames stream in behind the playhead — the
@@ -161,14 +274,22 @@
         entrance.decoded(0, function () {
         if (state.mode !== 'entrance') return;
         entrance.load(14, HERO_ACTIVE);
+        trick.load(0, HERO_TRICK);
+        door.src = BASE + 'door.webp' + ASSET_VER;
         idle.load(0, 6);
         state.i = 0;
-        state.timer = setInterval(function () {
-          if (!state.visible) return;                 // paused offscreen
-          show(entrance, state.i);
-          state.i++;
-          if (state.i >= HERO_ACTIVE) { stop(); finishToIdle(); }
-        }, FRAME_MS);
+        var last = performance.now();
+        (function tick(now) {
+          if (state.mode !== 'entrance' || !entrance) return;
+          var dt = Math.min(now - last, 100); last = now;
+          var next = state.i + dt / FRAME_MS;
+          // hold the playhead if the frame it needs has not streamed in yet
+          var need = entrance.img[Math.min(Math.floor(next) + 1, HERO_ACTIVE - 1)];
+          if (state.visible && need && need.complete) state.i = next;
+          if (state.i >= HERO_ACTIVE - 1) { show(entrance, HERO_ACTIVE - 1, false, 'entrance'); stop(); runTrick(); return; }
+          show(entrance, state.i, false, 'entrance');
+          state.timer = requestAnimationFrame(tick);
+        })(last);
         });
       });
     }
@@ -176,7 +297,7 @@
     /* Abandoning the entrance must resolve to the final layered state, never to
      * a half-played pose. */
     function resolveNow() {
-      if (state.mode === 'entrance') { stop(); finishToIdle(); }
+      if (state.mode === 'entrance' || state.mode === 'trick') { stop(); painter.under = null; finishToIdle(); }
     }
 
     if (skip) skip.addEventListener('click', resolveNow);
@@ -186,7 +307,7 @@
       state.visible = vis;
       if (!vis) {
         stop();
-        if (state.mode === 'entrance') resolveNow();   // scrolled away mid-entrance
+        if (state.mode === 'entrance' || state.mode === 'trick') resolveNow();   // scrolled away mid-entrance
       } else if (state.mode === 'idle' && !state.timer && !reduced) {
         runIdle();                                     // resume only idle motion
       }
@@ -195,11 +316,11 @@
 
     if (reduced) {
       if (skip) skip.hidden = true;
-      show(idle, 0); idle.load(0, 1); markHeroSeen(); return { state: state };
+      idle.load(0, 1, function () { show(idle, 0, false, 'idle'); }); markHeroSeen(); return { state: state };
     }
     /* Gate E R2: the complete approved Gate C performance plays on every normal
      * load and reload. (It previously played once per session.) */
-    runEntrance();
+    if (HAS_ENTRANCE) runEntrance(); else { if (skip) skip.hidden = true; runIdle(); }
 
     window.addEventListener('pagehide', stop);
     return { state: state, resolveNow: resolveNow, box: box, img: img };
@@ -221,14 +342,14 @@
     img.alt = '';
     img.setAttribute('aria-hidden', 'true');
     img.decoding = 'async';
-    img.src = BASE + 'story-rest.webp' + ASSET_VER;
+    img.src = BASE + 'rest.webp' + ASSET_VER;
     box.appendChild(img);
     box.classList.add('rig-on');
 
     var mq = window.matchMedia ? window.matchMedia(MOBILE_Q) : { matches: false };
     var sets = {
-      desk: new FrameSet('story-desk', 'd', STORY_D, 2),
-      mob: new FrameSet('story-mob', 'm', STORY_M, 2)
+      desk: new FrameSet('idle', 'i', STORY_D, 3),
+      mob: new FrameSet('idle', 'i', STORY_M, 3)
     };
     var lines = ['tLine1', 'tLine2', 'tLine3'].map(function (id) {
       return document.getElementById(id);
@@ -254,7 +375,8 @@
       return 0;
     }
 
-    var st = { active: false, raf: 0, last: -1, loaded: false };
+    var st = { active: false, raf: 0, last: -1, loaded: false, pos: -1 };
+    var painter = new Painter(img, 'idle');
 
     function which() { return mq.matches ? 'mob' : 'desk'; }
     function count() { return which() === 'mob' ? STORY_M : STORY_D; }
@@ -274,9 +396,18 @@
       var p = progress();
       var set = sets[which()];
       var n = count();
-      var f = clamp(Math.round(p * (n - 1)), 0, n - 1);
-      var key = which() + f;
-      if (key !== st.last) { img.src = set.src(f); st.last = key; }
+      /* The playhead eases toward the scroll position instead of jumping to it,
+       * and lands between frames, so the scrub glides at any scroll speed. */
+      var target = clamp(p * (n - 1), 0, n - 1);
+      if (st.pos < 0 || st.set !== which() || reduced) st.pos = target;
+      else st.pos += (target - st.pos) * 0.16;
+      if (Math.abs(target - st.pos) < 0.004) st.pos = target;
+      st.set = which();
+      var key = which() + st.pos.toFixed(3);
+      if (key !== st.last) {
+        if (painter.paint(set, st.pos, false, 'idle')) st.last = key;
+      }
+      if (st.pos !== target && !st.raf) st.raf = requestAnimationFrame(apply);
       var starts = which() === 'mob' ? BEAT_M : BEAT_D;
       for (var i = 0; i < 3; i++) {
         var el = lines[i];
@@ -323,7 +454,7 @@
     io.observe(section);
 
     if (reduced) {
-      img.src = BASE + 'story-rest.webp' + ASSET_VER;
+      img.src = BASE + 'rest.webp' + ASSET_VER;
       for (var i = 0; i < 3; i++) if (lines[i]) { lines[i].style.opacity = 1; lines[i].style.transform = 'none'; }
       return { state: st };
     }

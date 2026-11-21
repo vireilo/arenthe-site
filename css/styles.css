@@ -1714,3 +1714,13 @@ html.js .char-rig { opacity: 1; }
   .lender-facts > div { min-height: 110px; padding: 1.2rem; }
   .lender-section { padding-block: 4rem; }
 }
+
+
+/* ==========================================================================
+   Character v6 — regenerated performance. Frames are cropped to the character
+   and padded to the rig's own 1836:2376 box, so they fill it with no offset.
+   ========================================================================== */
+/* Hero frames are painted on a canvas 729 wide. The character's own box is
+   386 of that, starting 175 in: the doorway sits to its left, and there is
+   room to its right for the end of his walk. */
+#heroChar .char-frame { width: 188.860%; margin-left: -45.337%; max-width: none; }

@@ -1,0 +1,21 @@
+{
+ "geometry": {
+  "T": 0,
+  "B": 715,
+  "L": 112,
+  "Lr": 362,
+  "Rr": 914,
+  "H": 500,
+  "Wr": 386,
+  "Ww": 729,
+  "off": 175,
+  "Rw": 1154
+ },
+ "counts": {
+  "entrance": 182,
+  "trick": 124,
+  "idle": 123
+ },
+ "fps": 24,
+ "note": "Generated with Higgsfield from the character artwork, keyed off a blue background."
+}

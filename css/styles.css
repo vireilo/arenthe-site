@@ -1714,3 +1714,10 @@ html.js .char-rig { opacity: 1; }
   .lender-facts > div { min-height: 110px; padding: 1.2rem; }
   .lender-section { padding-block: 4rem; }
 }
+
+
+/* ==========================================================================
+   Character v6 — regenerated performance. Frames are cropped to the character
+   and padded to the rig's own 1836:2376 box, so they fill it with no offset.
+   ========================================================================== */
+#heroChar .char-frame { width: 100%; margin-left: 0; max-width: 100%; }

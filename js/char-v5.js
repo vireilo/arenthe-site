@@ -24,12 +24,15 @@
    * handshake the previous rig used, so no change to main.js is required. */
   window.__rigActive = true;
 
-  var BASE = 'assets/char-v5/';
-  var ASSET_VER = '?v=5';
-  var FPS = 12, FRAME_MS = 1000 / 12;
+  var BASE = 'assets/char-v6/';
+  var ASSET_VER = '?v=6';
+  var FPS = 24, FRAME_MS = 1000 / 24;   // v6: generated at 24 frames a second
   var HERO_ACTIVE = 120;          // 10.00 s
-  var HERO_IDLE = 60;             // 5.00 s
-  var STORY_D = 61, STORY_M = 41;
+  var HERO_IDLE = 123;            // 5.1 s loop
+  /* v6 interim: the new entrance performance is not produced yet, so the hero
+   * opens on the living idle. Set to true once assets/char-v6/entrance exists. */
+  var HAS_ENTRANCE = false;
+  var STORY_D = 123, STORY_M = 123;
   var MOBILE_Q = '(max-width: 700px)';
   var SEEN_KEY = 'arenthe.heroSeen';
 
@@ -89,7 +92,7 @@
   };
 
   /* Motion table: how far the drawing moves between each pair of frames,
-   * measured offline (assets/char-v5/motion.json). Slow passages are blended
+   * measured offline (assets/char-v6/motion.json). Slow passages are blended
    * between frames at the display's refresh rate, so breathing, settles and
    * scroll scrubbing read as continuous motion. Fast actions keep their drawn
    * poses: blending two distant drawings produces a double image, not motion. */
@@ -174,7 +177,7 @@
       img.setAttribute('aria-hidden', 'true');
       img.decoding = 'async';
       img.width = 470; img.height = 465;
-      img.src = BASE + 'hero-entrance/e000.webp' + ASSET_VER;
+      img.src = BASE + 'rest.webp' + ASSET_VER;
       box.appendChild(img);
     }
     box.classList.add('rig-on');
@@ -182,11 +185,11 @@
     var legacy = document.getElementById('charLegacy');
     if (legacy && legacy.parentNode) legacy.parentNode.removeChild(legacy);
 
-    var idle = new FrameSet('hero-idle', 'i', HERO_IDLE, 2);
+    var idle = new FrameSet('idle', 'i', HERO_IDLE, 3);
     var entrance = null;
     var state = { mode: 'rest', i: 0, timer: 0, visible: true, done: false };
 
-    var painter = new Painter(img, 'hero-idle');
+    var painter = new Painter(img, 'idle');
     function show(set, pos, loop, dir) { painter.paint(set, pos, loop, dir); }
     function stop() { if (state.timer) { cancelAnimationFrame(state.timer); state.timer = 0; } }
 
@@ -195,14 +198,14 @@
       stop();
       idle.load(0, HERO_IDLE, function () {
         if (state.mode !== 'idle') return;
-        show(idle, state.i % HERO_IDLE, true, 'hero-idle');
+        show(idle, state.i % HERO_IDLE, true, 'idle');
         if (reduced || !state.visible) return;
         var t0 = performance.now() - state.i * FRAME_MS;
         (function tick(now) {
           if (state.mode !== 'idle') return;
           var pos = ((now - t0) / FRAME_MS) % HERO_IDLE;
           state.i = pos;
-          show(idle, pos, true, 'hero-idle');
+          show(idle, pos, true, 'idle');
           state.timer = requestAnimationFrame(tick);
         })(performance.now());
       });
@@ -273,11 +276,11 @@
 
     if (reduced) {
       if (skip) skip.hidden = true;
-      idle.load(0, 1, function () { show(idle, 0, false, 'hero-idle'); }); markHeroSeen(); return { state: state };
+      idle.load(0, 1, function () { show(idle, 0, false, 'idle'); }); markHeroSeen(); return { state: state };
     }
     /* Gate E R2: the complete approved Gate C performance plays on every normal
      * load and reload. (It previously played once per session.) */
-    runEntrance();
+    if (HAS_ENTRANCE) runEntrance(); else { if (skip) skip.hidden = true; runIdle(); }
 
     window.addEventListener('pagehide', stop);
     return { state: state, resolveNow: resolveNow, box: box, img: img };
@@ -299,14 +302,14 @@
     img.alt = '';
     img.setAttribute('aria-hidden', 'true');
     img.decoding = 'async';
-    img.src = BASE + 'story-rest.webp' + ASSET_VER;
+    img.src = BASE + 'rest.webp' + ASSET_VER;
     box.appendChild(img);
     box.classList.add('rig-on');
 
     var mq = window.matchMedia ? window.matchMedia(MOBILE_Q) : { matches: false };
     var sets = {
-      desk: new FrameSet('story-desk', 'd', STORY_D, 2),
-      mob: new FrameSet('story-mob', 'm', STORY_M, 2)
+      desk: new FrameSet('idle', 'i', STORY_D, 3),
+      mob: new FrameSet('idle', 'i', STORY_M, 3)
     };
     var lines = ['tLine1', 'tLine2', 'tLine3'].map(function (id) {
       return document.getElementById(id);
@@ -333,7 +336,7 @@
     }
 
     var st = { active: false, raf: 0, last: -1, loaded: false, pos: -1 };
-    var painter = new Painter(img, 'story-desk');
+    var painter = new Painter(img, 'idle');
 
     function which() { return mq.matches ? 'mob' : 'desk'; }
     function count() { return which() === 'mob' ? STORY_M : STORY_D; }
@@ -362,7 +365,7 @@
       st.set = which();
       var key = which() + st.pos.toFixed(3);
       if (key !== st.last) {
-        if (painter.paint(set, st.pos, false, which() === 'mob' ? 'story-mob' : 'story-desk')) st.last = key;
+        if (painter.paint(set, st.pos, false, 'idle')) st.last = key;
       }
       if (st.pos !== target && !st.raf) st.raf = requestAnimationFrame(apply);
       var starts = which() === 'mob' ? BEAT_M : BEAT_D;
@@ -411,7 +414,7 @@
     io.observe(section);
 
     if (reduced) {
-      img.src = BASE + 'story-rest.webp' + ASSET_VER;
+      img.src = BASE + 'rest.webp' + ASSET_VER;
       for (var i = 0; i < 3; i++) if (lines[i]) { lines[i].style.opacity = 1; lines[i].style.transform = 'none'; }
       return { state: st };
     }

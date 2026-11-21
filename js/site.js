@@ -55,6 +55,7 @@
       var R = readers[r], rc = R.el.getBoundingClientRect();
       if (rc.bottom < -200 || rc.top > vh + 200) continue;
       var pr = Math.max(0, Math.min(1, (vh * 0.88 - rc.top) / (vh * 0.45 + rc.height)));
+      if (y + vh >= doc.scrollHeight - 4) pr = 1;   // nothing left to scroll: finish the paragraph
       var n = Math.round(pr * R.words.length);
       if (n !== R.n) {
         var lo = Math.min(n, R.n), hi = Math.max(n, R.n);

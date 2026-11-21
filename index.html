@@ -8,8 +8,8 @@
   <meta name="description" content="Arenthe Holdings is a Midwest real estate development and investment company focused on disciplined execution, capital readiness, and community opportunity." />
   <link rel="preload" href="assets/fonts/fraunces-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="css/site.css?v=1" />
-  <link rel="preload" as="image" href="assets/char-v6/door.webp?v=7" />
+  <link rel="stylesheet" href="css/site.css?v=2" />
+  <link rel="preload" as="image" href="assets/marque-center-aerial.webp" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -31,43 +31,48 @@
   <header class="hero" id="top">
     <div class="hero-main">
       <div class="hero-copy">
-        <h1><span>Excellence</span><span>in action.</span></h1>
-        <p class="pron">uh-REN-thee&ensp;·&ensp;Guardian of Virtue</p>
-      </div>
-      <!-- Character stage. Decorative: the door opens, he walks out, the ball becomes a house. -->
-      <div class="stage" aria-hidden="true">
-        <div class="char-rig" id="heroChar">
-          <div class="char-bob" id="heroCharBob">
-            <img class="char-frame" id="heroPoster" src="assets/char-v6/door.webp?v=7" width="729" height="500" alt="" fetchpriority="high" decoding="async" />
+        <div>
+          <h1><span>Excellence</span><span>in action.</span></h1>
+          <p class="pron">uh-REN-thee&ensp;·&ensp;Guardian of Virtue</p>
+          <p class="lead">Arenthe Holdings develops real estate and community opportunities across the Midwest with disciplined execution.</p>
+          <div class="actions">
+            <a href="#positioning" class="btn btn-ink">What we do</a>
+            <a href="contact.html" class="text-link">Start a conversation</a>
           </div>
         </div>
-        <button type="button" class="hero-skip" id="skipIntro" hidden>Skip intro</button>
-      </div>
-    </div>
-    <div class="band">
-      <div class="band-in">
-        <p>Arenthe Holdings develops real estate and community opportunities across the Midwest with disciplined execution.</p>
-        <div class="actions">
-          <a href="#positioning" class="btn btn-dark">What we do</a>
-          <a href="contact.html" class="text-link">Start a conversation</a>
+        <!-- The character: decorative. The door opens, he walks out, the ball becomes a house. -->
+        <div class="stage" aria-hidden="true">
+          <div class="char-rig" id="heroChar">
+            <div class="char-bob" id="heroCharBob">
+              <img class="char-frame" id="heroPoster" src="assets/char-v6/door.webp?v=7" width="729" height="500" alt="" decoding="async" />
+            </div>
+          </div>
+          <button type="button" class="hero-skip" id="skipIntro" hidden>Skip</button>
         </div>
       </div>
+      <figure class="hero-figure">
+        <picture>
+          <source srcset="assets/marque-center-aerial.webp" type="image/webp" />
+          <img src="assets/marque-center-aerial.jpg" alt="Aerial rendering of Marque Center, a brick retail center with ten storefronts and a drive-through building on North Dixie Drive." width="2752" height="1536" fetchpriority="high" />
+        </picture>
+        <figcaption><span><strong>Marque Center</strong> · North Dixie Drive, Harrison Township, Ohio</span><span>Conceptual rendering. Design and materials subject to change and approval.</span></figcaption>
+      </figure>
     </div>
     <div class="proof" aria-label="Company track record">
       <ul>
-        <li style="--i:0"><strong>2017</strong><span>Company established</span></li>
-        <li style="--i:1"><strong>75+</strong><span>Units acquired in a two-year period</span></li>
-        <li style="--i:2"><strong>Midwest</strong><span>Ohio-centered operating experience</span></li>
-        <li style="--i:3"><strong>Sponsor-led</strong><span>Acquisition and execution discipline</span></li>
+        <li><strong>2017</strong><span>Company established</span></li>
+        <li><strong>75+</strong><span>Units acquired in a two-year period</span></li>
+        <li><strong>Midwest</strong><span>Ohio-centered operating experience</span></li>
+        <li><strong>Sponsor-led</strong><span>Acquisition and execution discipline</span></li>
       </ul>
     </div>
   </header>
 
   <main id="main">
-  <section class="sec dark" id="positioning">
+  <section class="sec" id="positioning">
     <div class="in">
       <div class="head">
-        <h2 data-r="head">Development with purpose</h2>
+        <h2 data-r>Development with purpose</h2>
         <p class="lead" data-r style="--i:1">We originate and develop real estate projects, structure opportunities, and execute with the discipline required to qualify for institutional capital and community partnerships.</p>
       </div>
       <ol class="verbs">
@@ -78,11 +83,32 @@
     </div>
   </section>
 
-  <section class="sec meaning dark" id="meaning">
+  <section class="sec paper project" id="project">
     <div class="in">
-      <p class="greek" aria-hidden="true" data-word><span style="--i:0">A</span><span style="--i:1">r</span><span style="--i:2">e</span><span style="--i:3">t</span><span style="--i:4">e</span></p>
       <div class="cols">
-        <h2 data-r="head">From the Greek <em>Arete</em>: virtue &amp; excellence</h2>
+        <div>
+          <p class="status" data-r>In development</p>
+          <h2 data-r>Marque Center</h2>
+          <p class="where" data-r style="--i:1">North Dixie Drive · Harrison Township, Dayton, Ohio</p>
+        </div>
+        <div class="txt" data-r style="--i:1">
+          <p>A ground-up neighborhood retail center replacing an aging commercial strip on one of Harrison Township’s primary corridors, pairing flexible storefront space with a drive-through pad and dedicated fast-charging.</p>
+        </div>
+      </div>
+      <ul class="facts" data-r style="--i:2">
+        <li><strong>16,000</strong><span>Square feet</span></li>
+        <li><strong>10</strong><span>Retail suites</span></li>
+        <li><strong>1,545 SF</strong><span>Drive-through building</span></li>
+        <li><strong>8</strong><span>EV charging stalls</span></li>
+      </ul>
+      <p class="more" data-r style="--i:3"><a href="projects.html" class="text-link">View the project</a></p>
+    </div>
+  </section>
+
+  <section class="sec meaning" id="meaning">
+    <div class="in">
+      <div class="cols">
+        <h2 data-r>From the Greek <em>Arete</em>: virtue &amp; excellence</h2>
         <div class="txt" data-r style="--i:1">
           <p>Arenthe (uh-REN-thee) stems from the ancient Greek concept of <em>Arete</em>: virtue, moral excellence, and fulfillment of purpose. It stands for stewardship, integrity, and the steady work of building well.</p>
           <p><strong>Guardian of Virtue.</strong> Not excellence as a slogan. Excellence as the standard we hold ourselves to on every project, partnership, and decision.</p>
@@ -91,23 +117,17 @@
     </div>
   </section>
 
-  <section class="transform" id="transform" aria-label="From one decision to a community">
-    <div class="transform-pin" id="transformPin">
-      <div class="transform-stage" aria-hidden="true">
-        <div class="tchar-rig" id="tChar"></div>
-      </div>
-      <div class="transform-copy">
-        <p class="tline" id="tLine1">“Every project starts with one decision.</p>
-        <p class="tline" id="tLine2">Communities aren’t built overnight.”</p>
-        <p class="tline tline--handoff" id="tLine3">Real estate development, capital readiness, and community opportunity in the Midwest.</p>
-      </div>
+  <section class="sec dark quote" id="approach">
+    <div class="in">
+      <blockquote data-r>“Every project starts with one decision. Communities aren’t built overnight.”</blockquote>
+      <p class="after" data-r style="--i:1">Real estate development, capital readiness, and community opportunity in the Midwest.</p>
     </div>
   </section>
 
-  <section class="sec warm dark" id="focus">
+  <section class="sec" id="focus">
     <div class="in">
       <div class="head">
-        <h2 data-r="head">Where we put our energy</h2>
+        <h2 data-r>Where we put our energy</h2>
         <p class="lead" data-r style="--i:1">Real estate development, capital readiness, and community opportunity in the Midwest.</p>
       </div>
       <ul class="pairs">
@@ -119,10 +139,10 @@
     </div>
   </section>
 
-  <section class="sec on-light" id="how">
+  <section class="sec paper" id="how">
     <div class="in">
       <div class="head">
-        <h2 data-r="head">How we work</h2>
+        <h2 data-r>How we work</h2>
         <p class="lead" data-r style="--i:1">Simple principles that keep projects moving and relationships strong.</p>
       </div>
       <ul class="four">
@@ -134,23 +154,10 @@
     </div>
   </section>
 
-  <section class="sec dim" id="mission">
+  <section class="sec" id="track-record">
     <div class="in">
       <div class="head">
-        <h2 data-r="head">Mission &amp; Vision</h2>
-        <p class="lead" data-r style="--i:1">Clear direction. Measured ambition. Built to last.</p>
-      </div>
-      <div class="mv" data-line>
-        <div data-r><h3>Mission</h3><p>Create opportunities, develop communities, and open doors through disciplined execution across the Midwest.</p></div>
-        <div data-r style="--i:1"><h3>Vision</h3><p>Become one of the country’s most respected minority-owned development companies, known for integrity, delivery, and lasting impact.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec dark" id="track-record">
-    <div class="in">
-      <div class="head">
-        <h2 data-r="head">Experience lenders can evaluate</h2>
+        <h2 data-r>Experience lenders can evaluate</h2>
         <p class="lead" data-r style="--i:1">A focused operating history built through acquisitions, repositioning, and long-term ownership.</p>
       </div>
       <ul class="three">
@@ -160,19 +167,18 @@
       </ul>
       <div class="foot-row" data-r>
         <p>Detailed transaction schedules and supporting materials are available to qualified lenders through a private review process.</p>
-        <a class="btn btn-gold" href="lenders.html">Lender Information</a>
+        <a class="btn btn-ink" href="lenders.html">Lender Information</a>
       </div>
     </div>
   </section>
 
-  <section class="sec close" id="connect" data-wipe>
+  <section class="sec dark close" id="connect">
     <div class="in">
-      <div class="txt">
-        <h2 data-r="head">Let’s build something</h2>
-        <p data-r style="--i:1">Whether you have a site, a partnership idea, or a capital conversation, we’re ready to talk.</p>
-        <a href="contact.html" class="btn btn-dark" data-r style="--i:2">Start a conversation</a>
+      <div>
+        <h2 data-r>Let’s build something</h2>
+        <p data-r style="--i:1;margin-top:1rem">Whether you have a site, a partnership idea, or a capital conversation, we’re ready to talk.</p>
       </div>
-      <figure aria-hidden="true" data-r style="--i:2"><img id="ctaChar" src="assets/char-v6/rest.webp?v=7" alt="" width="386" height="500" loading="lazy" decoding="async" /></figure>
+      <div class="act" data-r style="--i:2"><a href="contact.html" class="btn btn-gold">Start a conversation</a></div>
     </div>
   </section>
   </main>
@@ -190,7 +196,6 @@
           <li><a href="projects.html">Projects</a></li>
           <li><a href="about.html">About Julian</a></li>
           <li><a href="#meaning">Brand Meaning</a></li>
-          <li><a href="#mission">Mission &amp; Vision</a></li>
           <li><a href="lenders.html">Lender Information</a></li>
         </ul>
       </nav>

@@ -1,5 +1,4 @@
 // Arenthe Holdings — nav state, mobile menu, scroll progress and scroll choreography.
-// The character has its own script (char-v5.js).
 (function () {
   var doc = document.documentElement;
   var nav = document.getElementById('nav');

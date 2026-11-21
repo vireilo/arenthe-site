@@ -42,7 +42,7 @@ An owner-operator turned developer: a sponsor who acquired and held a residentia
 
 - Name: Arenthe Holdings, pronounced uh-REN-thee, from the Greek *arete*. Lines in use: "Guardian of Virtue" and "Excellence in action."
 - The company began as Mills & Co. Real Estate in 2017 and was renamed in 2026.
-- An illustrated founder figure appears on the home and about pages as animated frame sequences; it trades a basketball for a house.
+- No illustrated character or mascot. The site is about the properties and the development work.
 - The founder profile is written in a plain, factual, third-person voice.
 
 ## Evidence on Hand
@@ -50,7 +50,6 @@ An owner-operator turned developer: a sponsor who acquired and held a residentia
 - Track record as published: company established 2017; first rental bought the following May; more than seventy-five units acquired inside two years, concentrated in Ohio with holdings in Texas.
 - Founder history as published on `about.html`, including the basketball years and time as a relationship banker.
 - Marque Center facts as published: 16,000 square feet, 10 retail suites, a 1,545 square foot drive-through building, 8 EV charging stalls, and a conceptual rendering.
-- Character frame sequences in `assets/char-v5`.
 - **Absent, do not fabricate**: financial statements or figures, lender or partner logos, testimonials, completed-development case studies.
 
 ## Product Principles

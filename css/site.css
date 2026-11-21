@@ -125,19 +125,6 @@ a{color:inherit} img{max-width:100%;height:auto;display:block}
 .press a:hover .ttl,.press a:focus-visible .ttl{text-decoration-color:var(--gold)}
 .press a:hover{padding-left:.5rem}
 
-/* scroll scene: scrolling plays his performance while three lines pass */
-.transform{height:420vh;background:var(--paper);position:relative}
-.transform-pin{position:sticky;top:0;height:100vh;height:100svh;display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:2rem 4rem;align-items:center;padding:5.5rem var(--pad) 2.5rem;max-width:calc(var(--max) + 2*var(--pad));margin:0 auto;overflow:hidden}
-.transform-stage{--rig:min(15rem,34vh);position:relative;width:calc(var(--rig)*1.8886);max-width:100%;justify-self:center}
-.transform-stage::after{content:"";position:absolute;left:-6%;right:-6%;bottom:1.1%;height:1px;background:var(--ink)}
-.tchar-rig{width:var(--rig);margin-left:calc(var(--rig)*.45337);aspect-ratio:1836/2376;position:relative;z-index:1}
-.char-frame{width:100%;height:auto;display:block}
-.tchar-rig .char-frame{width:188.86%;margin-left:-45.337%;max-width:none}
-.tchar-rig.rest .char-frame{width:100%;margin-left:0}
-.transform-copy{position:relative;min-height:13rem}
-.tline{position:absolute;inset:0 0 auto 0;font-family:var(--serif);font-weight:500;font-size:clamp(1.8rem,3.6vw,3rem);line-height:1.1;letter-spacing:-.02em;text-wrap:balance}
-.tline--handoff{font-family:var(--sans);font-weight:400;font-size:var(--t-lead);line-height:1.5;letter-spacing:0;color:var(--ink-2);max-width:30em}
-html:not(.js) .transform{height:auto} html:not(.js) .transform-pin{position:static;height:auto} html:not(.js) .tline{position:static;margin-bottom:1rem}
 
 .close .in{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:1.5rem 4rem;align-items:end}
 .close p{font-size:var(--t-lead);max-width:28em}
@@ -174,8 +161,6 @@ html:not(.js) .transform{height:auto} html:not(.js) .transform-pin{position:stat
 .years h3{font-family:var(--sans);font-weight:500;font-size:var(--t-body)}
 .years li{padding:1rem 0}
 .years p{font-size:var(--t-small);color:var(--ink-3)}
-.trade .in{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2rem clamp(2rem,5vw,4.5rem);align-items:center}
-.trade img{width:clamp(7rem,12vw,10rem)}
 .details h2{font-family:var(--sans);font-weight:600;font-size:var(--t-small);letter-spacing:.02em;color:var(--ink-3);margin-top:1.8rem}
 .details h2:first-child{margin-top:0}
 .details p{margin-top:.35rem;color:var(--ink)}
@@ -213,7 +198,7 @@ body.inner .nav{background:rgba(255,255,255,.96);box-shadow:0 1px 0 var(--rule)}
   .hero{padding-top:5.5rem}
   .hero-main,.split,.close .in{grid-template-columns:1fr}
   .side{position:static}
-  .trade .in,.form .form-row{grid-template-columns:1fr}
+  .form .form-row{grid-template-columns:1fr}
   .page-head,.page-plain{padding-top:7rem}
   .steps{grid-template-columns:1fr;gap:2rem;padding-top:0;padding-left:1.6rem}
   .steps::before{left:.3rem;right:auto;top:.4rem;bottom:.4rem;width:1px;height:auto}
@@ -224,13 +209,10 @@ body.inner .nav{background:rgba(255,255,255,.96);box-shadow:0 1px 0 var(--rule)}
   .proof ul,.facts{grid-template-columns:1fr 1fr}
   .proof li:nth-child(3){padding-left:0}.proof li:nth-child(3)::before{display:none}
   .close .act{justify-self:start}
-  .transform-pin{grid-template-columns:1fr;align-content:center;gap:1.2rem;padding-top:5rem}
-  .transform-stage{--rig:min(40vw,26vh)}
-  .transform-copy{min-height:10rem}
   .foot-in{grid-template-columns:1fr 1fr}.foot-in>div:first-child{grid-column:1/-1}
 }
 
-/* motion: restrained. Text rises once; rules draw; nothing loops except the character. */
+/* motion: restrained. Text rises once; rules draw; nothing loops. */
 @media (prefers-reduced-motion:no-preference){
   .hero h1 span{animation:rise .9s var(--ease) both}.hero h1 span:nth-child(2){animation-delay:.08s}
   .hero .pron,.hero .lead,.hero .actions{animation:fade .8s ease .35s both}

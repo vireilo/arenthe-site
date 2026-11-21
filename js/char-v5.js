@@ -25,14 +25,14 @@
   window.__rigActive = true;
 
   var BASE = 'assets/char-v6/';
-  var ASSET_VER = '?v=6';
+  var ASSET_VER = '?v=7';
   var FPS = 24, FRAME_MS = 1000 / 24;   // v6: generated at 24 frames a second
-  var HERO_ACTIVE = 124;          // entrance through the door, 5.2 s
+  var HERO_ACTIVE = 182;          // entrance through the door, 7.6 s
   var HERO_TRICK = 124;           // basketball becomes a house, 5.2 s
   /* Entrance frames carry the door, so they are wider than the others. Every
    * hero frame is painted onto one canvas of the wide size; the narrower sets
    * are drawn at an offset so the character never shifts between them. */
-  var WIDE_W = 561, WIDE_OFF = 175;
+  var WIDE_W = 729, WIDE_OFF = 175;
   var HERO_IDLE = 123;            // 5.1 s loop
   /* v6 interim: the new entrance performance is not produced yet, so the hero
    * opens on the living idle. Set to true once assets/char-v6/entrance exists. */

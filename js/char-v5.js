@@ -37,7 +37,8 @@
   /* v6 interim: the new entrance performance is not produced yet, so the hero
    * opens on the living idle. Set to true once assets/char-v6/entrance exists. */
   var HAS_ENTRANCE = true;
-  var STORY_D = 123, STORY_M = 123;
+  /* The scroll scene plays the entrance and then the trick, end to end. */
+  var STORY_D = HERO_ACTIVE + HERO_TRICK, STORY_M = STORY_D;
   var MOBILE_Q = '(max-width: 700px)';
   var SEEN_KEY = 'arenthe.heroSeen';
 
@@ -106,7 +107,7 @@
     try {
       var x = new XMLHttpRequest();
       x.open('GET', BASE + 'motion.json' + ASSET_VER, true);
-      x.onload = function () { try { MOTION = JSON.parse(x.responseText); } catch (e) {} };
+      x.onload = function () { try { MOTION = JSON.parse(x.responseText); MOTION.story = (MOTION.entrance || []).concat(MOTION.trick || []); } catch (e) {} };
       x.send();
     } catch (e) {}
   })();
@@ -342,15 +343,15 @@
     img.alt = '';
     img.setAttribute('aria-hidden', 'true');
     img.decoding = 'async';
-    img.src = BASE + 'rest.webp' + ASSET_VER;
+    img.src = BASE + 'door.webp' + ASSET_VER;
     box.appendChild(img);
     box.classList.add('rig-on');
 
     var mq = window.matchMedia ? window.matchMedia(MOBILE_Q) : { matches: false };
-    var sets = {
-      desk: new FrameSet('idle', 'i', STORY_D, 3),
-      mob: new FrameSet('idle', 'i', STORY_M, 3)
-    };
+    var combo = new FrameSet('entrance', 'e', HERO_ACTIVE, 3);
+    combo.urls = combo.urls.concat(new FrameSet('trick', 't', HERO_TRICK, 3).urls);
+    var sets = { desk: combo, mob: combo };
+    var door = new Image(); door.decoding = 'async'; door.src = BASE + 'door.webp' + ASSET_VER;
     var lines = ['tLine1', 'tLine2', 'tLine3'].map(function (id) {
       return document.getElementById(id);
     });
@@ -359,7 +360,7 @@
      * sit underneath the next headline. Each beat therefore has an explicit in
      * AND out, and an inactive beat is hidden outright rather than left at
      * opacity 0 on top of its successor. */
-    var BEAT_D = [0.055, 0.375, 0.695], BEAT_M = [0.050, 0.370, 0.690];
+    var BEAT_D = [0.10, 0.56, 0.80], BEAT_M = [0.10, 0.56, 0.80];
     var T = 0.06;                      // 6% of the timeline per transition
 
     /* Sequential with a half-transition overlap: beat i is on its way out while
@@ -376,7 +377,8 @@
     }
 
     var st = { active: false, raf: 0, last: -1, loaded: false, pos: -1 };
-    var painter = new Painter(img, 'idle');
+    var painter = new Painter(img, 'story');
+    painter.wide = true;
 
     function which() { return mq.matches ? 'mob' : 'desk'; }
     function count() { return which() === 'mob' ? STORY_M : STORY_D; }
@@ -405,7 +407,10 @@
       st.set = which();
       var key = which() + st.pos.toFixed(3);
       if (key !== st.last) {
-        if (painter.paint(set, st.pos, false, 'idle')) st.last = key;
+        // past the entrance the door is its own layer, fading while he performs
+        painter.under = door;
+        painter.underAlpha = st.pos >= HERO_ACTIVE - 1 ? clamp(1 - (st.pos - HERO_ACTIVE - 6) / 30, 0, 1) : 0;
+        if (painter.paint(set, st.pos, false, 'story')) st.last = key;
       }
       if (st.pos !== target && !st.raf) st.raf = requestAnimationFrame(apply);
       var starts = which() === 'mob' ? BEAT_M : BEAT_D;
@@ -443,7 +448,7 @@
     /* defer the story frames until the section is near the viewport */
     var near = new IntersectionObserver(function (es) {
       if (es[0].isIntersecting) { ensureLoaded(); near.disconnect(); }
-    }, { rootMargin: '400px 0px' });
+    }, { rootMargin: '2000px 0px' });
     near.observe(section);
 
     var io = new IntersectionObserver(function (es) {
@@ -454,7 +459,7 @@
     io.observe(section);
 
     if (reduced) {
-      img.src = BASE + 'rest.webp' + ASSET_VER;
+      img.src = BASE + 'rest.webp' + ASSET_VER; box.classList.add('rest');
       for (var i = 0; i < 3; i++) if (lines[i]) { lines[i].style.opacity = 1; lines[i].style.transform = 'none'; }
       return { state: st };
     }

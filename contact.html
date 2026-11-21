@@ -6,157 +6,124 @@
   <title>Contact | Arenthe Holdings</title>
   <link rel="icon" href="assets/logo-nav.png" type="image/png" />
   <meta name="description" content="Contact Arenthe Holdings. Reach out regarding development opportunities, partnerships, or general inquiries." />
-  <link rel="stylesheet" href="css/styles.css?v=14" />
-  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preload" href="assets/fonts/fraunces-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="css/site.css?v=6" />
 </head>
-<body>
-  <a class="skip-link" href="#main">Skip to content</a>
+<body class="inner">
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="progress" id="progress"></div>
+  <nav class="nav" id="nav" aria-label="Primary">
+    <a href="index.html" class="nav-logo" aria-label="Arenthe Holdings, home"><img src="assets/logo-nav.png" alt="Arenthe Holdings" width="200" height="50" /></a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="navLinks">Menu</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html#positioning">What We Do</a>
+      <a href="projects.html">Projects</a>
+      <a href="index.html#news">News</a>
+      <a href="index.html#how">How We Work</a>
+      <a href="index.html#track-record">Track Record</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" class="cta">Contact</a>
+    </div>
+  </nav>
 
-  <header class="nav scrolled" id="nav">
-    <a href="index.html" class="nav-logo" aria-label="Arenthe Holdings — home">
-      <img src="assets/logo-nav.png" alt="Arenthe Holdings" width="200" height="50" />
-    </a>
-    <nav class="nav-desktop" aria-label="Primary">
-      <ul class="nav-links">
-        <li><a href="index.html#top">Home</a></li>
-        <li><a href="index.html#positioning">What We Do</a></li>
-        <li><a href="index.html#how">How We Work</a></li>
-        <li><a href="index.html#track-record">Track Record</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html" class="is-active" aria-current="page">Contact</a></li>
-      </ul>
-    </nav>
-    <div class="nav-right">
-      <a class="nav-cta" href="lenders.html">Lender Information</a>
-      <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
-        <span class="nav-toggle-line"></span>
-        <span class="nav-toggle-line"></span>
-      </button>
+
+  <main id="main">
+  <header class="page-head">
+    <div class="in">
+      <h1>Start a conversation</h1>
+      <p class="big">Sites, partnerships, capital conversations, or general questions: reach out. We respond thoughtfully.</p>
     </div>
   </header>
 
-  <div class="mobile-menu" id="mobileMenu" hidden>
-    <nav aria-label="Mobile">
-      <ul>
-        <li><a href="index.html#top">Home</a></li>
-        <li><a href="index.html#positioning">What We Do</a></li>
-        <li><a href="index.html#how">How We Work</a></li>
-        <li><a href="index.html#track-record">Track Record</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="lenders.html">Lender Information</a></li>
-        <li><a href="contact.html" class="is-active" aria-current="page">Contact</a></li>
-      </ul>
-    </nav>
-  </div>
-
-  <main id="main" class="page-main">
-    <div class="page-inner">
-      <p class="section-label" data-reveal>Contact</p>
-      <h1 class="page-title" data-reveal>Start a conversation</h1>
-      <p class="page-lead" data-reveal>
-        Sites, partnerships, capital conversations, or general questions — reach out. We respond thoughtfully.
-      </p>
-
-      <div class="contact-grid" data-reveal data-reveal-delay="1">
-        <div class="contact-card">
-          <h2>General</h2>
-          <p><a href="mailto:hello@arenthe.com">hello@arenthe.com</a></p>
-        </div>
-        <div class="contact-card">
-          <h2>Location</h2>
-          <p>Midwest, United States<br />Ohio and surrounding markets</p>
-        </div>
+  <section class="sec tight">
+    <div class="in split">
+      <div class="side details">
+        <h2>General</h2>
+        <p><a href="mailto:hello@arenthe.com" class="text-link">hello@arenthe.com</a></p>
+        <h2>Location</h2>
+        <p>Midwest, United States<br />Ohio and surrounding markets</p>
       </div>
-
-      <form class="contact-form" name="contact" action="thanks.html" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-reveal data-reveal-delay="2">
-        <input type="hidden" name="form-name" value="contact" />
-        <p class="form-honeypot"><label>Leave this field empty: <input name="bot-field" type="text" tabindex="-1" autocomplete="off" /></label></p>
-        <div class="form-row">
+      <div>
+          <form class="form" name="contact" action="thanks.html" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="contact" />
+          <p class="form-honeypot"><label>Leave this field empty: <input name="bot-field" type="text" tabindex="-1" autocomplete="off" /></label></p>
+          <div class="form-row">
           <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" required placeholder="Your name" autocomplete="name" />
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required placeholder="Your name" autocomplete="name" />
           </div>
           <div class="form-group">
-            <label for="company">Company or organization</label>
-            <input type="text" id="company" name="company" placeholder="Company name" autocomplete="organization" />
+          <label for="company">Company or organization</label>
+          <input type="text" id="company" name="company" placeholder="Company name" autocomplete="organization" />
           </div>
-        </div>
-        <div class="form-row">
+          </div>
+          <div class="form-row">
           <div class="form-group">
-            <label for="email">Work email</label>
-            <input type="email" id="email" name="email" required placeholder="you@company.com" autocomplete="email" />
+          <label for="email">Work email</label>
+          <input type="email" id="email" name="email" required placeholder="you@company.com" autocomplete="email" />
           </div>
           <div class="form-group">
-            <label for="phone">Phone <span class="field-optional">Optional</span></label>
-            <input type="tel" id="phone" name="phone" placeholder="(555) 555-5555" autocomplete="tel" />
+          <label for="phone">Phone <span class="field-optional">Optional</span></label>
+          <input type="tel" id="phone" name="phone" placeholder="(555) 555-5555" autocomplete="tel" />
           </div>
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
           <label for="subject">Subject</label>
           <select id="subject" name="subject">
-            <option value="General inquiry">General inquiry</option>
-            <option value="Site / Development opportunity">Site / Development opportunity</option>
-            <option value="Partnership">Partnership</option>
-            <option value="Capital / Financing">Capital / Financing</option>
-            <option value="Municipal / Community">Municipal / Community</option>
-            <option value="Other">Other</option>
+          <option value="General inquiry">General inquiry</option>
+          <option value="Site / Development opportunity">Site / Development opportunity</option>
+          <option value="Partnership">Partnership</option>
+          <option value="Capital / Financing">Capital / Financing</option>
+          <option value="Municipal / Community">Municipal / Community</option>
+          <option value="Other">Other</option>
           </select>
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
           <label for="message">Message</label>
           <textarea id="message" name="message" required placeholder="How can we help?"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Send Message</button>
-        <p class="form-note">Your message will be submitted securely through Netlify. You may also email <a href="mailto:hello@arenthe.com">hello@arenthe.com</a>.</p>
-      </form>
+          </div>
+          <button type="submit" class="btn btn-ink">Send Message</button>
+          <p class="form-note">Your message will be submitted securely through Netlify. You may also email <a href="mailto:hello@arenthe.com">hello@arenthe.com</a>.</p>
+          </form>
+      </div>
     </div>
+  </section>
   </main>
 
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-brand">
+  <footer class="foot">
+    <div class="foot-in">
+      <div>
         <img src="assets/logo-nav.png" alt="Arenthe Holdings" width="200" height="50" loading="lazy" />
-        <p>Midwest development. Excellence in action.</p>
+        <p class="about">Midwest development. Excellence in action.</p>
       </div>
-      <nav class="footer-col" aria-label="Company">
-        <h4>Company</h4>
+      <nav aria-label="Company">
+        <h2>Company</h2>
         <ul>
           <li><a href="index.html#positioning">What We Do</a></li>
           <li><a href="projects.html">Projects</a></li>
           <li><a href="about.html">About Julian</a></li>
-          <li><a href="index.html#meaning">Brand Meaning</a></li>
-          <li><a href="index.html#mission">Mission &amp; Vision</a></li>
-          <li><a href="lenders.html">Lender Information</a></li>
         </ul>
       </nav>
-      <nav class="footer-col" aria-label="Approach">
-        <h4>Approach</h4>
+      <nav aria-label="Approach">
+        <h2>Approach</h2>
         <ul>
           <li><a href="index.html#how">How We Work</a></li>
           <li><a href="index.html#focus">Focus Areas</a></li>
+          <li><a href="index.html#news">News</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
-      <nav class="footer-col" aria-label="Legal">
-        <h4>Legal</h4>
+      <nav aria-label="Legal">
+        <h2>Legal</h2>
         <ul>
           <li><a href="privacy.html">Privacy Policy</a></li>
         </ul>
       </nav>
     </div>
-    <div class="footer-bottom">
-      <span>© 2026 Arenthe Holdings. All rights reserved.</span>
-      <span class="footer-bottom-links">
-        <a href="privacy.html">Privacy</a>
-        <a href="contact.html">Contact</a>
-      </span>
-    </div>
+    <div class="foot-base">© 2026 Arenthe Holdings. All rights reserved.</div>
   </footer>
 
-  <script src="assets/vendor/gsap.min.js?v=3" defer></script>
-  <script src="assets/vendor/ScrollTrigger.min.js?v=3" defer></script>
-  <script src="js/main.js?v=10" defer></script>
+  <script src="js/site.js?v=3" defer></script>
 </body>
 </html>

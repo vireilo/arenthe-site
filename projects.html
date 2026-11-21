@@ -5,286 +5,120 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Projects | Arenthe Holdings</title>
   <link rel="icon" href="assets/logo-nav.png" type="image/png" />
-  <meta name="description" content="Marque Center — a 16,000 sq ft retail development on North Dixie Drive in Harrison Township, Dayton, Ohio. Ten suites, a drive-through pad, and Tesla V4 Supercharging." />
-
+  <meta name="description" content="Marque Center: a 16,000 sq ft retail development on North Dixie Drive in Harrison Township, Dayton, Ohio. Ten suites, a drive-through pad, and EV fast charging." />
   <meta property="og:title" content="Marque Center | Arenthe Holdings" />
   <meta property="og:description" content="A 16,000 sq ft retail development on North Dixie Drive, Harrison Township, Ohio." />
   <meta property="og:image" content="assets/marque-center-aerial.jpg" />
   <meta property="og:type" content="website" />
-
-  <link rel="stylesheet" href="css/styles.css?v=14" />
-  <script>document.documentElement.classList.add('js');</script>
-  <link rel="preload" as="image" href="assets/marque-center-aerial.webp" />
-
-  <style>
-    /* Projects page: scoped styles built on the existing site tokens. */
-    .proj-hero {
-      position: relative;
-      margin: 0 0 clamp(2.5rem, 6vw, 4.5rem);
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid rgba(198, 166, 100, 0.30);
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.50);
-      background: var(--black-soft);
-    }
-    .proj-hero img { width: 100%; height: auto; display: block; }
-    .proj-hero-overlay {
-      position: absolute; inset: auto 0 0 0;
-      padding: clamp(1.25rem, 4vw, 2.5rem);
-      background: linear-gradient(to top, rgba(14,14,14,0.88) 0%, rgba(14,14,14,0.55) 45%, rgba(14,14,14,0) 100%);
-      pointer-events: none;
-    }
-    .proj-hero-overlay .eyebrow {
-      color: var(--gold-light);
-      font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase;
-      margin: 0 0 0.4rem;
-    }
-    .proj-hero-overlay h1 {
-      font-family: var(--font-display);
-      font-size: clamp(1.9rem, 5vw, 3.2rem);
-      line-height: 1.05; margin: 0; color: var(--paper);
-    }
-    .proj-hero-overlay .loc {
-      margin: 0.5rem 0 0; color: var(--taupe);
-      font-size: clamp(0.85rem, 1.6vw, 1rem);
-    }
-    .proj-caption {
-      margin: 0.85rem 0 0;
-      font-size: 0.76rem; letter-spacing: 0.04em;
-      color: var(--stone); font-style: italic;
-    }
-
-    .proj-stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1px;
-      background: rgba(198, 166, 100, 0.22);
-      border: 1px solid rgba(198, 166, 100, 0.22);
-      border-radius: 6px; overflow: hidden;
-      margin: clamp(2rem, 5vw, 3rem) 0;
-    }
-    .proj-stat { background: var(--black-soft); padding: 1.4rem 1.2rem; }
-    .proj-stat .n {
-      font-family: var(--font-display);
-      font-size: clamp(1.5rem, 3vw, 2.1rem);
-      color: var(--gold); line-height: 1; display: block;
-    }
-    .proj-stat .l {
-      display: block; margin-top: 0.5rem;
-      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--taupe);
-    }
-
-    .proj-features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: clamp(1.5rem, 3.5vw, 2.5rem);
-      margin: clamp(2rem, 5vw, 3rem) 0;
-    }
-    .proj-feature h3 {
-      font-family: var(--font-display);
-      font-size: 1.15rem; color: var(--paper); margin: 0 0 0.5rem;
-    }
-    .proj-feature p { margin: 0; color: var(--taupe); font-size: 0.95rem; line-height: 1.65; }
-    .proj-feature::before {
-      content: ""; display: block; width: 28px; height: 2px;
-      background: var(--gold); margin-bottom: 0.9rem;
-    }
-
-    .proj-status {
-      display: inline-flex; align-items: center; gap: 0.55rem;
-      padding: 0.4rem 0.85rem; border-radius: 999px;
-      border: 1px solid rgba(198, 166, 100, 0.45);
-      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--gold-light); margin-bottom: 1.25rem;
-    }
-    .proj-status::before {
-      content: ""; width: 7px; height: 7px; border-radius: 50%;
-      background: var(--gold); display: block;
-    }
-
-    .proj-cta {
-      margin: clamp(2.5rem, 6vw, 4rem) 0 0;
-      padding: clamp(1.75rem, 4vw, 2.75rem);
-      border: 1px solid rgba(198, 166, 100, 0.28);
-      border-radius: 8px; background: var(--black-soft);
-    }
-    .proj-cta h2 { font-family: var(--font-display); font-size: clamp(1.4rem, 3vw, 1.9rem); margin: 0 0 0.6rem; }
-    .proj-cta p { color: var(--taupe); margin: 0 0 1.5rem; max-width: 52ch; }
-    .proj-cta .btn + .btn { margin-left: 0.75rem; }
-
-    @media (max-width: 560px) {
-      .proj-cta .btn { display: block; width: 100%; text-align: center; }
-      .proj-cta .btn + .btn { margin: 0.75rem 0 0; }
-    }
-  </style>
+  <link rel="preload" href="assets/fonts/fraunces-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="css/site.css?v=6" />
 </head>
-<body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <div class="scroll-progress" aria-hidden="true"><span id="scrollProgressBar"></span></div>
+<body class="inner">
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="progress" id="progress"></div>
+  <nav class="nav" id="nav" aria-label="Primary">
+    <a href="index.html" class="nav-logo" aria-label="Arenthe Holdings, home"><img src="assets/logo-nav.png" alt="Arenthe Holdings" width="200" height="50" /></a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="navLinks">Menu</button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html#positioning">What We Do</a>
+      <a href="projects.html">Projects</a>
+      <a href="index.html#news">News</a>
+      <a href="index.html#how">How We Work</a>
+      <a href="index.html#track-record">Track Record</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" class="cta">Contact</a>
+    </div>
+  </nav>
 
-  <!-- ============ NAV ============ -->
-  <header class="nav" id="nav">
-    <a href="index.html" class="nav-logo" aria-label="Arenthe Holdings — home">
-      <img src="assets/logo-nav.png" alt="Arenthe Holdings" width="200" height="50" />
-    </a>
-    <nav class="nav-desktop" aria-label="Primary">
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="index.html#positioning">What We Do</a></li>
-        <li><a href="index.html#how">How We Work</a></li>
-        <li><a href="projects.html" class="is-active">Projects</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
-    <div class="nav-right">
-      <a class="nav-cta" href="lenders.html">Lender Information</a>
-      <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
-        <span class="nav-toggle-line"></span>
-        <span class="nav-toggle-line"></span>
-      </button>
+
+  <main id="main">
+  <header class="page-head">
+    <div class="in">
+      <p class="status">In development</p>
+      <h1>Marque Center</h1>
+      <p class="where">North Dixie Drive · Harrison Township, Dayton, Ohio</p>
     </div>
   </header>
 
-  <!-- Mobile menu overlay -->
-  <div class="mobile-menu" id="mobileMenu" hidden>
-    <nav aria-label="Mobile">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="index.html#positioning">What We Do</a></li>
-        <li><a href="index.html#how">How We Work</a></li>
-        <li><a href="projects.html" class="is-active">Projects</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="lenders.html">Lender Information</a></li>
-        <li><a href="contact.html">Contact</a></li>
+  <figure class="wide-figure">
+    <picture data-scale>
+      <source srcset="assets/marque-center-aerial.webp" type="image/webp" />
+      <img src="assets/marque-center-aerial.jpg" alt="Aerial rendering of Marque Center, a brick retail center with ten storefronts, a drive-through building and vehicle charging stalls on North Dixie Drive." width="2752" height="1536" fetchpriority="high" />
+    </picture>
+    <figcaption>Conceptual rendering. Design and materials subject to change and approval.</figcaption>
+  </figure>
+
+  <section class="sec">
+    <div class="in">
+      <p class="big" data-read>A ground-up neighborhood retail center replacing an aging commercial strip on one of Harrison Township’s primary corridors. Marque Center pairs 16,000 square feet of flexible storefront space with a drive-through pad and one of the area’s first dedicated fast-charging installations.</p>
+      <ul class="facts" data-r>
+        <li><strong data-count="16000">16,000</strong><span>Square feet</span></li>
+        <li><strong data-count="10">10</strong><span>Retail suites</span></li>
+        <li><strong data-count="1545" data-suffix=" SF">1,545 SF</strong><span>Drive-through building</span></li>
+        <li><strong data-count="8">8</strong><span>EV charging stalls</span></li>
       </ul>
-    </nav>
-  </div>
-
-  <main id="main" class="page-main">
-    <div class="page-inner" style="max-width: 1080px;">
-
-      <p class="section-label" data-reveal>Projects</p>
-
-      <figure class="proj-hero" data-reveal style="margin-top:1.5rem;">
-        <picture>
-          <source srcset="assets/marque-center-aerial.webp" type="image/webp" />
-          <img src="assets/marque-center-aerial.jpg"
-               alt="Aerial rendering of Marque Center, a brick retail center with ten storefronts, a drive-through coffee building and Tesla Supercharging stalls on North Dixie Drive."
-               width="2752" height="1536" />
-        </picture>
-        <figcaption class="proj-hero-overlay">
-          <p class="eyebrow">In Development</p>
-          <h1>Marque Center</h1>
-          <p class="loc">North Dixie Drive &middot; Harrison Township, Dayton, Ohio</p>
-        </figcaption>
-      </figure>
-      <p class="proj-caption" data-reveal>Conceptual rendering — design and materials subject to change and approval.</p>
-
-      <div style="margin-top: clamp(2.5rem, 6vw, 4rem);">
-        <span class="proj-status" data-reveal>In Development</span>
-        <p class="page-lead" data-reveal>
-          A ground-up neighborhood retail center replacing an aging commercial strip on one of
-          Harrison Township's primary corridors. Marque Center pairs 16,000 square feet of
-          flexible storefront space with a drive-through pad and one of the area's first
-          dedicated fast-charging installations.
-        </p>
-      </div>
-
-      <div class="proj-stats" data-reveal>
-        <div class="proj-stat"><span class="n">16,000</span><span class="l">Square Feet</span></div>
-        <div class="proj-stat"><span class="n">10</span><span class="l">Retail Suites</span></div>
-        <div class="proj-stat"><span class="n">1,545</span><span class="l">SF Drive-Through</span></div>
-        <div class="proj-stat"><span class="n">8</span><span class="l">EV Charging Stalls</span></div>
-      </div>
-
-      <div class="proj-features">
-        <div class="proj-feature" data-reveal>
-          <h3>Flexible Suite Mix</h3>
-          <p>
-            Ten storefront bays on a twenty-foot module, combinable into larger footprints for
-            anchor tenants. Full-height glazing and individual entrances throughout.
-          </p>
-        </div>
-        <div class="proj-feature" data-reveal>
-          <h3>Drive-Through Pad</h3>
-          <p>
-            A separate 1,545 sq ft building with a covered drive-through lane, purpose-built for
-            coffee service but designed to remain adaptable to other uses.
-          </p>
-        </div>
-        <div class="proj-feature" data-reveal>
-          <h3>EV Fast Charging</h3>
-          <p>
-            Tesla V4 Supercharging stalls with capacity for future expansion — drawing traffic
-            that dwells, which benefits every tenant on the site.
-          </p>
-        </div>
-        <div class="proj-feature" data-reveal>
-          <h3>Corridor Frontage</h3>
-          <p>
-            Direct visibility and three access points on North Dixie Drive, with shared signage
-            and parking planned to civil engineering standards.
-          </p>
-        </div>
-      </div>
-
-      <div class="proj-cta" data-reveal>
-        <h2>Leasing &amp; Partnership Inquiries</h2>
-        <p>
-          Suites at Marque Center are available for pre-leasing. We welcome conversations with
-          prospective tenants, brokers, and capital partners.
-        </p>
-        <a href="contact.html" class="btn btn-primary">Contact Us</a>
-        <a href="lenders.html" class="btn btn-ghost">Lender Information</a>
-      </div>
-
     </div>
+  </section>
+
+  <section class="sec paper">
+    <div class="in split">
+      <div class="side">
+        <h2 data-r>The plan</h2>
+      </div>
+      <ul class="cells">
+          <li data-r style="--i:0"><h3>Flexible suite mix</h3><p>Ten storefront bays on a twenty-foot module, combinable into larger footprints for anchor tenants. Full-height glazing and individual entrances throughout.</p></li>
+          <li data-r style="--i:1"><h3>Drive-through pad</h3><p>A separate 1,545 sq ft building with a covered drive-through lane, purpose-built for coffee service but designed to remain adaptable to other uses.</p></li>
+          <li data-r style="--i:2"><h3>EV fast charging</h3><p>Fast-charging stalls with capacity for future expansion, drawing traffic that dwells, which benefits every tenant on the site.</p></li>
+          <li data-r style="--i:3"><h3>Corridor frontage</h3><p>Direct visibility and three access points on North Dixie Drive, with shared signage and parking planned to civil engineering standards.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec dark close">
+    <div class="in">
+      <div>
+        <h2 data-r>Leasing &amp; partnership inquiries</h2>
+        <p data-r style="--i:1;margin-top:1rem">Suites at Marque Center are available for pre-leasing. We welcome conversations with prospective tenants, brokers, and capital partners.</p>
+      </div>
+      <div class="act" data-r style="--i:2"><a href="contact.html" class="btn btn-gold">Contact us</a></div>
+    </div>
+  </section>
   </main>
 
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-brand">
+  <footer class="foot">
+    <div class="foot-in">
+      <div>
         <img src="assets/logo-nav.png" alt="Arenthe Holdings" width="200" height="50" loading="lazy" />
-        <p>Midwest development. Excellence in action.</p>
+        <p class="about">Midwest development. Excellence in action.</p>
       </div>
-      <nav class="footer-col" aria-label="Company">
-        <h4>Company</h4>
+      <nav aria-label="Company">
+        <h2>Company</h2>
         <ul>
           <li><a href="index.html#positioning">What We Do</a></li>
           <li><a href="projects.html">Projects</a></li>
           <li><a href="about.html">About Julian</a></li>
-          <li><a href="index.html#meaning">Brand Meaning</a></li>
-          <li><a href="lenders.html">Lender Information</a></li>
         </ul>
       </nav>
-      <nav class="footer-col" aria-label="Approach">
-        <h4>Approach</h4>
+      <nav aria-label="Approach">
+        <h2>Approach</h2>
         <ul>
           <li><a href="index.html#how">How We Work</a></li>
           <li><a href="index.html#focus">Focus Areas</a></li>
+          <li><a href="index.html#news">News</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
-      <nav class="footer-col" aria-label="Legal">
-        <h4>Legal</h4>
+      <nav aria-label="Legal">
+        <h2>Legal</h2>
         <ul>
           <li><a href="privacy.html">Privacy Policy</a></li>
         </ul>
       </nav>
     </div>
-    <div class="footer-bottom">
-      <span>&copy; 2026 Arenthe Holdings. All rights reserved.</span>
-      <span class="footer-bottom-links">
-        <a href="privacy.html">Privacy</a>
-        <a href="contact.html">Contact</a>
-      </span>
-    </div>
+    <div class="foot-base">© 2026 Arenthe Holdings. All rights reserved.</div>
   </footer>
 
-  <script src="assets/vendor/gsap.min.js?v=3" defer></script>
-  <script src="assets/vendor/ScrollTrigger.min.js?v=3" defer></script>
-  <script src="js/main.js?v=10" defer></script>
+  <script src="js/site.js?v=3" defer></script>
 </body>
 </html>

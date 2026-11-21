@@ -50,12 +50,7 @@ Deliberately unlike the Vireilo Ventures site (dark, bold sans, stacked): Arenth
 - Figures (`data-count`) count up once.
 - The news video (`data-scale`) grows into its frame.
 - Steps arrive in order along their line.
-- **The scroll scene** on the home page: the page pins and scrolling plays the character's performance (door, walk, ball to house) beside three lines of copy. Reversible.
 - Everything is off under `prefers-reduced-motion`, and all content is readable without JavaScript.
-
-## The character
-
-Frames live in `assets/char-v6/` (entrance, trick, idle; 24 fps), generated from the original artwork and keyed off a blue backdrop. He appears in the home page scroll scene and as a small still on the About page. Player: `js/char-v5.js`.
 
 ## Content rules that affect design
 

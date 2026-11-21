@@ -6,365 +6,185 @@
   <title>Arenthe Holdings | Development & Opportunity</title>
   <link rel="icon" href="assets/logo-nav.png" type="image/png" />
   <meta name="description" content="Arenthe Holdings is a Midwest real estate development and investment company focused on disciplined execution, capital readiness, and community opportunity." />
-
-  <!-- Self-hosted fonts: Fraunces (display) + Inter (body). Files in assets/fonts/ -->
   <link rel="preload" href="assets/fonts/fraunces-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
-  <!-- Essential hero rig layers (largest structural parts; the rest arrive
-       during the entrance and are gated by a decode check before playback) -->
-  <link rel="stylesheet" href="css/styles.css?v=17" />
-  <script>document.documentElement.classList.add('js');</script>
-  <!-- only the immediate hero: the resting poster and the first entrance frame -->
-    <link rel="preload" as="image" href="assets/char-v6/door.webp?v=7" />
+  <link rel="stylesheet" href="css/site.css?v=1" />
+  <link rel="preload" as="image" href="assets/char-v6/door.webp?v=7" />
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <div class="scroll-progress" aria-hidden="true"><span id="scrollProgressBar"></span></div>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="progress" id="progress"></div>
+  <nav class="nav" id="nav" aria-label="Primary">
+    <a href="index.html" class="nav-logo" aria-label="Arenthe Holdings, home"><img src="assets/logo-nav.png" alt="Arenthe Holdings" width="200" height="50" /></a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="navLinks">Menu</button>
+    <div class="nav-links" id="navLinks">
+      <a href="#positioning">What We Do</a>
+      <a href="#how">How We Work</a>
+      <a href="#track-record">Track Record</a>
+      <a href="projects.html">Projects</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="lenders.html" class="cta">Lender Information</a>
+    </div>
+  </nav>
 
-  <!-- ============ NAV ============ -->
-  <header class="nav" id="nav">
-    <a href="index.html" class="nav-logo" aria-label="Arenthe Holdings — home">
-      <img src="assets/logo-nav.png" alt="Arenthe Holdings" width="200" height="50" />
-    </a>
-    <nav class="nav-desktop" aria-label="Primary">
-      <ul class="nav-links">
-        <li><a href="#top" data-nav-section="top">Home</a></li>
-        <li><a href="#positioning" data-nav-section="positioning">What We Do</a></li>
-        <li><a href="#how" data-nav-section="how">How We Work</a></li>
-        <li><a href="#track-record" data-nav-section="track-record">Track Record</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
+  <header class="hero" id="top">
+    <div class="hero-main">
+      <div class="hero-copy">
+        <h1><span>Excellence</span><span>in action.</span></h1>
+        <p class="pron">uh-REN-thee&ensp;·&ensp;Guardian of Virtue</p>
+      </div>
+      <!-- Character stage. Decorative: the door opens, he walks out, the ball becomes a house. -->
+      <div class="stage" aria-hidden="true">
+        <div class="char-rig" id="heroChar">
+          <div class="char-bob" id="heroCharBob">
+            <img class="char-frame" id="heroPoster" src="assets/char-v6/door.webp?v=7" width="729" height="500" alt="" fetchpriority="high" decoding="async" />
+          </div>
+        </div>
+        <button type="button" class="hero-skip" id="skipIntro" hidden>Skip intro</button>
+      </div>
+    </div>
+    <div class="band">
+      <div class="band-in">
+        <p>Arenthe Holdings develops real estate and community opportunities across the Midwest with disciplined execution.</p>
+        <div class="actions">
+          <a href="#positioning" class="btn btn-dark">What we do</a>
+          <a href="contact.html" class="text-link">Start a conversation</a>
+        </div>
+      </div>
+    </div>
+    <div class="proof" aria-label="Company track record">
+      <ul>
+        <li style="--i:0"><strong>2017</strong><span>Company established</span></li>
+        <li style="--i:1"><strong>75+</strong><span>Units acquired in a two-year period</span></li>
+        <li style="--i:2"><strong>Midwest</strong><span>Ohio-centered operating experience</span></li>
+        <li style="--i:3"><strong>Sponsor-led</strong><span>Acquisition and execution discipline</span></li>
       </ul>
-    </nav>
-    <div class="nav-right">
-      <a class="nav-cta" href="lenders.html">Lender Information</a>
-      <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
-        <span class="nav-toggle-line"></span>
-        <span class="nav-toggle-line"></span>
-      </button>
     </div>
   </header>
 
-  <!-- Mobile menu overlay -->
-  <div class="mobile-menu" id="mobileMenu" hidden>
-    <nav aria-label="Mobile">
-      <ul>
-        <li><a href="#top" data-nav-section="top">Home</a></li>
-        <li><a href="#positioning" data-nav-section="positioning">What We Do</a></li>
-        <li><a href="#how" data-nav-section="how">How We Work</a></li>
-        <li><a href="#track-record" data-nav-section="track-record">Track Record</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="lenders.html">Lender Information</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
-  </div>
-
   <main id="main">
-    <!-- ============ SCENE 1 · HERO ============ -->
-    <section class="hero" id="top" aria-label="Introduction">
-      <div class="hero-grid" aria-hidden="true"></div>
-      <div class="hero-glow" aria-hidden="true"></div>
+  <section class="sec dark" id="positioning">
+    <div class="in">
+      <div class="head">
+        <h2 data-r="head">Development with purpose</h2>
+        <p class="lead" data-r style="--i:1">We originate and develop real estate projects, structure opportunities, and execute with the discipline required to qualify for institutional capital and community partnerships.</p>
+      </div>
+      <ol class="verbs">
+          <li data-line style="--i:0"><h3>Originate</h3><p>Identify sites and opportunities that can create lasting value for communities and partners across the Midwest.</p></li>
+          <li data-line style="--i:1"><h3>Develop</h3><p>Advance projects through planning, entitlements, design, and construction with clear underwriting and execution standards.</p></li>
+          <li data-line style="--i:2"><h3>Qualify</h3><p>Structure projects and ownership to support financing, grants, and the certifications that open doors for capital and collaboration.</p></li>
+      </ol>
+    </div>
+  </section>
 
-      <div class="hero-content">
-        <p class="eyebrow" data-hero="eyebrow">Midwest Development</p>
-        <h1 class="hero-title">
-          <span class="w"><span class="wi" data-hero="word">Excellence</span></span>
-          <span class="w"><span class="wi" data-hero="word">in</span></span>
-          <span class="w"><span class="wi" data-hero="word">action.</span></span>
-        </h1>
-        <p class="hero-pron" data-hero="fade">uh-REN-thee&ensp;·&ensp;Guardian of Virtue</p>
-        <p class="hero-lead" data-hero="fade">
-          Arenthe Holdings develops real estate and community opportunities across the
-          Midwest with disciplined execution.
-        </p>
-        <div class="hero-actions" data-hero="fade">
-          <a href="#positioning" class="btn btn-primary">What We Do</a>
-          <a href="contact.html" class="btn btn-ghost">Start a Conversation</a>
+  <section class="sec meaning dark" id="meaning">
+    <div class="in">
+      <p class="greek" aria-hidden="true" data-word><span style="--i:0">A</span><span style="--i:1">r</span><span style="--i:2">e</span><span style="--i:3">t</span><span style="--i:4">e</span></p>
+      <div class="cols">
+        <h2 data-r="head">From the Greek <em>Arete</em>: virtue &amp; excellence</h2>
+        <div class="txt" data-r style="--i:1">
+          <p>Arenthe (uh-REN-thee) stems from the ancient Greek concept of <em>Arete</em>: virtue, moral excellence, and fulfillment of purpose. It stands for stewardship, integrity, and the steady work of building well.</p>
+          <p><strong>Guardian of Virtue.</strong> Not excellence as a slogan. Excellence as the standard we hold ourselves to on every project, partnership, and decision.</p>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- Character stage: the caricature walks in along the baseline. Decorative.
-           Default markup shows the original artwork (post-trick state); JS upgrades
-           to the layered rig + magic-trick exchange when the assets are present. -->
-      <div class="hero-stage" aria-hidden="true">
-        <div class="baseline" data-hero="baseline"></div>
-        <div class="char-rig" id="heroChar">
-          <div class="char-bob" id="heroCharBob">
-            <!-- Immediate poster: entrance frame 0 of the approved Gate C R2
-                 performance — a clean layered-rig render, not char-full.webp and
-                 not the neutral reference. It is the first frame the animation
-                 plays, so playback continues from it with no jump. It stays on
-                 screen until frame 0 has decoded, and remains if the script or a
-                 later frame ever fails. -->
-            <img class="char-frame" id="heroPoster"
-                 src="assets/char-v6/door.webp?v=7"
-                 width="729" height="500" alt="" aria-hidden="true"
-                 fetchpriority="high" decoding="async" />
-          </div>
-        </div>
+  <section class="transform" id="transform" aria-label="From one decision to a community">
+    <div class="transform-pin" id="transformPin">
+      <div class="transform-stage" aria-hidden="true">
+        <div class="tchar-rig" id="tChar"></div>
       </div>
-
-      <div class="scroll-cue" data-hero="cue">
-        <span>Scroll</span>
-        <div class="scroll-line"></div>
+      <div class="transform-copy">
+        <p class="tline" id="tLine1">“Every project starts with one decision.</p>
+        <p class="tline" id="tLine2">Communities aren’t built overnight.”</p>
+        <p class="tline tline--handoff" id="tLine3">Real estate development, capital readiness, and community opportunity in the Midwest.</p>
       </div>
-      <button type="button" class="hero-skip" id="skipIntro" hidden>Skip intro</button>
-    </section>
+    </div>
+  </section>
 
-    <section class="proof-bar" aria-label="Company track record">
-      <div class="proof-bar-inner">
-        <div><strong>2017</strong><span>Company established</span></div>
-        <div><strong>75+</strong><span>Units acquired in a two-year period</span></div>
-        <div><strong>Midwest</strong><span>Ohio-centered operating experience</span></div>
-        <div><strong>Sponsor-led</strong><span>Acquisition and execution discipline</span></div>
+  <section class="sec warm dark" id="focus">
+    <div class="in">
+      <div class="head">
+        <h2 data-r="head">Where we put our energy</h2>
+        <p class="lead" data-r style="--i:1">Real estate development, capital readiness, and community opportunity in the Midwest.</p>
       </div>
-    </section>
+      <ul class="pairs">
+          <li data-r style="--i:0"><h3>Real Estate Development</h3><p>Mixed-use, commercial, and community-serving projects, from site control through delivery, with attention to design, financing, and local context.</p></li>
+          <li data-r style="--i:1"><h3>MBE &amp; Capital Readiness</h3><p>Our MBE enterprise application is in process. We structure ownership and project readiness to support financing, grants, and partnership pathways.</p></li>
+          <li data-r style="--i:2"><h3>Community Opportunity</h3><p>Projects that strengthen the places they inhabit: local employment, activated space, and development that communities can stand behind.</p></li>
+          <li data-r style="--i:3"><h3>Disciplined Execution</h3><p>Clear scopes, honest timelines, and accountability. Excellence in action is the operating standard, not a marketing line.</p></li>
+      </ul>
+    </div>
+  </section>
 
-    <!-- ============ SCENE 2 · POSITIONING ============ -->
-    <section class="positioning section-dark" id="positioning" aria-labelledby="positioningTitle">
-      <div class="section-inner">
-        <div class="section-head" data-reveal>
-          <p class="section-label">What We Do</p>
-          <h2 class="section-title" id="positioningTitle">Development with purpose</h2>
-          <p class="section-lead">
-            We originate and develop real estate projects, structure opportunities, and
-            execute with the discipline required to qualify for institutional capital and
-            community partnerships.
-          </p>
-        </div>
-
-        <div class="path-steps">
-          <div class="path-track" aria-hidden="true"><span id="pathLine"></span></div>
-          <ol class="steps">
-            <li class="step" data-reveal>
-              <span class="step-num" aria-hidden="true">01</span>
-              <h3>Originate</h3>
-              <p>Identify sites and opportunities that can create lasting value for communities and partners across the Midwest.</p>
-            </li>
-            <li class="step" data-reveal data-reveal-delay="1">
-              <span class="step-num" aria-hidden="true">02</span>
-              <h3>Develop</h3>
-              <p>Advance projects through planning, entitlements, design, and construction with clear underwriting and execution standards.</p>
-            </li>
-            <li class="step" data-reveal data-reveal-delay="2">
-              <span class="step-num" aria-hidden="true">03</span>
-              <h3>Qualify</h3>
-              <p>Structure projects and ownership to support financing, grants, and the certifications that open doors for capital and collaboration.</p>
-            </li>
-          </ol>
-        </div>
+  <section class="sec on-light" id="how">
+    <div class="in">
+      <div class="head">
+        <h2 data-r="head">How we work</h2>
+        <p class="lead" data-r style="--i:1">Simple principles that keep projects moving and relationships strong.</p>
       </div>
-    </section>
+      <ul class="four">
+          <li data-r style="--i:0"><h3>One brick at a time</h3><p>Complex projects become manageable when broken into clear, sequenced decisions.</p></li>
+          <li data-r style="--i:1"><h3>Underwrite honestly</h3><p>Numbers and risk are treated with respect. We don’t sell ourselves a story.</p></li>
+          <li data-r style="--i:2"><h3>Partner clearly</h3><p>Municipalities, lenders, contractors, and communities get straight communication.</p></li>
+          <li data-r style="--i:3"><h3>Build to endure</h3><p>We design and deliver for long-term performance, not short-term optics.</p></li>
+      </ul>
+    </div>
+  </section>
 
-    <!-- ============ SCENE 3 · MEANING ============ -->
-    <section class="meaning section-dark" id="meaning" aria-labelledby="meaningTitle">
-      <p class="ghost-word" id="ghostWord" aria-hidden="true">Arete</p>
-      <div class="section-inner meaning-inner">
-        <div class="section-head" data-reveal>
-          <p class="section-label">Brand Meaning</p>
-          <h2 class="section-title" id="meaningTitle">From the Greek <em>Arete</em> — virtue &amp; excellence</h2>
-        </div>
-        <div class="meaning-grid">
-          <div data-reveal data-reveal-delay="1">
-            <p class="section-lead meaning-lead">
-              Arenthe (uh-REN-thee) stems from the ancient Greek concept of <em>Arete</em> —
-              virtue, moral excellence, and fulfillment of purpose. It stands for stewardship,
-              integrity, and the steady work of building well.
-            </p>
-            <div class="meaning-note">
-              <strong>Guardian of Virtue.</strong> Not excellence as a slogan — excellence as
-              the standard we hold ourselves to on every project, partnership, and decision.
-            </div>
-          </div>
-          <div class="meaning-panel" data-reveal data-reveal-delay="2">
-            <p class="meaning-word">Arete</p>
-            <p class="meaning-caption">virtue · excellence · purpose</p>
-          </div>
-        </div>
+  <section class="sec dim" id="mission">
+    <div class="in">
+      <div class="head">
+        <h2 data-r="head">Mission &amp; Vision</h2>
+        <p class="lead" data-r style="--i:1">Clear direction. Measured ambition. Built to last.</p>
       </div>
-    </section>
-
-    <!-- ============ SCENE 4 · SIGNATURE TRANSFORMATION ============ -->
-    <section class="transform" id="transform" aria-label="From one decision to a community">
-      <div class="transform-pin" id="transformPin">
-        <div class="transform-grid" aria-hidden="true"></div>
-        <div class="transform-spot" aria-hidden="true"></div>
-
-        <div class="transform-stage" aria-hidden="true">
-          <div class="baseline baseline--transform"></div>
-          <!-- Post-trick state: the approved finish keyframe (detailed house spinning
-               on the fingertip, basketball charm on the ring). Original artwork is the
-               default + fallback. -->
-          <div class="tchar-rig" id="tChar">
-            <!-- Approved scroll-story rig (Gate D R2) mounts here -->
-          </div>
-        </div>
-
-        <div class="transform-copy">
-          <p class="tline" id="tLine1">“Every project starts with one decision.</p>
-          <p class="tline" id="tLine2">Communities aren’t built overnight.”</p>
-          <p class="tline tline--handoff" id="tLine3">Real estate development, capital readiness, and community opportunity in the Midwest.</p>
-        </div>
+      <div class="mv" data-line>
+        <div data-r><h3>Mission</h3><p>Create opportunities, develop communities, and open doors through disciplined execution across the Midwest.</p></div>
+        <div data-r style="--i:1"><h3>Vision</h3><p>Become one of the country’s most respected minority-owned development companies, known for integrity, delivery, and lasting impact.</p></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ============ SCENE 5 · FOCUS ============ -->
-    <section class="focus section-dark" id="focus" aria-labelledby="focusTitle">
-      <div class="section-inner">
-        <div class="section-head" data-reveal>
-          <p class="section-label">Focus</p>
-          <h2 class="section-title" id="focusTitle">Where we put our energy</h2>
-          <p class="section-lead">Real estate development, capital readiness, and community opportunity in the Midwest.</p>
-        </div>
-        <ul class="focus-grid">
-          <li class="focus-item" data-reveal>
-            <svg class="key-mark" viewBox="0 0 48 20" aria-hidden="true"><circle cx="9" cy="10" r="6.5" stroke="currentColor" stroke-width="2.5" fill="none"/><path d="M15.5 10 H44 M37 10 v6 M42 10 v4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
-            <h3>Real Estate Development</h3>
-            <p>Mixed-use, commercial, and community-serving projects — from site control through delivery — with attention to design, financing, and local context.</p>
-          </li>
-          <li class="focus-item" data-reveal data-reveal-delay="1">
-            <svg class="key-mark" viewBox="0 0 48 20" aria-hidden="true"><circle cx="9" cy="10" r="6.5" stroke="currentColor" stroke-width="2.5" fill="none"/><path d="M15.5 10 H44 M37 10 v6 M42 10 v4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
-            <h3>MBE &amp; Capital Readiness</h3>
-            <p>Our MBE enterprise application is in process. We structure ownership and project readiness to support financing, grants, and partnership pathways.</p>
-          </li>
-          <li class="focus-item" data-reveal data-reveal-delay="1">
-            <svg class="key-mark" viewBox="0 0 48 20" aria-hidden="true"><circle cx="9" cy="10" r="6.5" stroke="currentColor" stroke-width="2.5" fill="none"/><path d="M15.5 10 H44 M37 10 v6 M42 10 v4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
-            <h3>Community Opportunity</h3>
-            <p>Projects that strengthen the places they inhabit — local employment, activated space, and development that communities can stand behind.</p>
-          </li>
-          <li class="focus-item" data-reveal data-reveal-delay="2">
-            <svg class="key-mark" viewBox="0 0 48 20" aria-hidden="true"><circle cx="9" cy="10" r="6.5" stroke="currentColor" stroke-width="2.5" fill="none"/><path d="M15.5 10 H44 M37 10 v6 M42 10 v4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
-            <h3>Disciplined Execution</h3>
-            <p>Clear scopes, honest timelines, and accountability. Excellence in action is the operating standard, not a marketing line.</p>
-          </li>
-        </ul>
+  <section class="sec dark" id="track-record">
+    <div class="in">
+      <div class="head">
+        <h2 data-r="head">Experience lenders can evaluate</h2>
+        <p class="lead" data-r style="--i:1">A focused operating history built through acquisitions, repositioning, and long-term ownership.</p>
       </div>
-    </section>
+      <ul class="three">
+          <li data-r style="--i:0"><span class="kick">Operating platform</span><h3>Established in 2017</h3><p>Founded as Mills &amp; Co. Real Estate and renamed Arenthe Holdings in 2026 as the platform expanded toward development and institutional capital readiness.</p></li>
+          <li data-r style="--i:1"><span class="kick">Acquisition experience</span><h3>75+ units acquired</h3><p>More than seventy-five residential units acquired inside a two-year period, concentrated in Ohio with additional operating experience in Texas.</p></li>
+          <li data-r style="--i:2"><span class="kick">Investment approach</span><h3>Value with a durable plan</h3><p>Small multifamily and single-family properties acquired below replacement cost, repositioned, and primarily held for long-term performance.</p></li>
+      </ul>
+      <div class="foot-row" data-r>
+        <p>Detailed transaction schedules and supporting materials are available to qualified lenders through a private review process.</p>
+        <a class="btn btn-gold" href="lenders.html">Lender Information</a>
+      </div>
+    </div>
+  </section>
 
-    <!-- ============ SCENE 6 · HOW WE WORK (paper) ============ -->
-    <section class="how section-paper" id="how" aria-labelledby="howTitle">
-      <div class="section-inner">
-        <div class="section-head" data-reveal>
-          <p class="section-label">Approach</p>
-          <h2 class="section-title" id="howTitle">How we work</h2>
-          <p class="section-lead">Simple principles that keep projects moving and relationships strong.</p>
-        </div>
-        <ol class="how-row">
-          <li class="how-item" data-reveal>
-            <span class="how-rule" aria-hidden="true"></span>
-            <span class="how-num" aria-hidden="true">01</span>
-            <h3>One brick at a time</h3>
-            <p>Complex projects become manageable when broken into clear, sequenced decisions.</p>
-          </li>
-          <li class="how-item" data-reveal data-reveal-delay="1">
-            <span class="how-rule" aria-hidden="true"></span>
-            <span class="how-num" aria-hidden="true">02</span>
-            <h3>Underwrite honestly</h3>
-            <p>Numbers and risk are treated with respect. We don’t sell ourselves a story.</p>
-          </li>
-          <li class="how-item" data-reveal data-reveal-delay="2">
-            <span class="how-rule" aria-hidden="true"></span>
-            <span class="how-num" aria-hidden="true">03</span>
-            <h3>Partner clearly</h3>
-            <p>Municipalities, lenders, contractors, and communities get straight communication.</p>
-          </li>
-          <li class="how-item" data-reveal data-reveal-delay="3">
-            <span class="how-rule" aria-hidden="true"></span>
-            <span class="how-num" aria-hidden="true">04</span>
-            <h3>Build to endure</h3>
-            <p>We design and deliver for long-term performance, not short-term optics.</p>
-          </li>
-        </ol>
+  <section class="sec close" id="connect" data-wipe>
+    <div class="in">
+      <div class="txt">
+        <h2 data-r="head">Let’s build something</h2>
+        <p data-r style="--i:1">Whether you have a site, a partnership idea, or a capital conversation, we’re ready to talk.</p>
+        <a href="contact.html" class="btn btn-dark" data-r style="--i:2">Start a conversation</a>
       </div>
-    </section>
-
-    <!-- ============ SCENE 7 · MISSION & VISION (paper) ============ -->
-    <section class="mission section-paper" id="mission" aria-labelledby="missionTitle">
-      <div class="section-inner">
-        <div class="section-head" data-reveal>
-          <p class="section-label">Purpose</p>
-          <h2 class="section-title" id="missionTitle">Mission &amp; Vision</h2>
-          <p class="section-lead">Clear direction. Measured ambition. Built to last.</p>
-        </div>
-        <div class="mv-grid">
-          <article class="mv-block" data-reveal>
-            <h3>Mission</h3>
-            <p class="mv-statement">Create opportunities, develop communities, and open doors through disciplined execution across the Midwest.</p>
-          </article>
-          <div class="mv-divider" aria-hidden="true"></div>
-          <article class="mv-block" data-reveal data-reveal-delay="1">
-            <h3>Vision</h3>
-            <p class="mv-statement">Become one of the country’s most respected minority-owned development companies — known for integrity, delivery, and lasting impact.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="track-record section-dark" id="track-record" aria-labelledby="trackRecordTitle">
-      <div class="section-inner">
-        <div class="section-head" data-reveal>
-          <p class="section-label">Track Record</p>
-          <h2 class="section-title" id="trackRecordTitle">Experience lenders can evaluate</h2>
-          <p class="section-lead">A focused operating history built through acquisitions, repositioning, and long-term ownership.</p>
-        </div>
-        <div class="track-grid">
-          <article class="track-card" data-reveal>
-            <span class="track-kicker">Operating Platform</span>
-            <h3>Established in 2017</h3>
-            <p>Founded as Mills &amp; Co. Real Estate and renamed Arenthe Holdings in 2026 as the platform expanded toward development and institutional capital readiness.</p>
-          </article>
-          <article class="track-card" data-reveal data-reveal-delay="1">
-            <span class="track-kicker">Acquisition Experience</span>
-            <h3>75+ units acquired</h3>
-            <p>More than seventy-five residential units acquired inside a two-year period, concentrated in Ohio with additional operating experience in Texas.</p>
-          </article>
-          <article class="track-card" data-reveal data-reveal-delay="2">
-            <span class="track-kicker">Investment Approach</span>
-            <h3>Value with a durable plan</h3>
-            <p>Small multifamily and single-family properties acquired below replacement cost, repositioned, and primarily held for long-term performance.</p>
-          </article>
-        </div>
-        <div class="track-foot" data-reveal>
-          <p>Detailed transaction schedules and supporting materials are available to qualified lenders through a private review process.</p>
-          <a class="btn btn-primary" href="lenders.html">Lender Information</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ SCENE 8 · CTA ============ -->
-    <section class="cta section-dark" id="connect" aria-labelledby="ctaTitle">
-      <div class="cta-glow" aria-hidden="true"></div>
-      <div class="section-inner cta-grid">
-        <div class="cta-content" data-reveal>
-          <p class="section-label">Connect</p>
-          <h2 class="section-title" id="ctaTitle">Let’s build something</h2>
-          <p class="section-lead">
-            Whether you have a site, a partnership idea, or a capital conversation — we’re ready to talk.
-          </p>
-          <div class="hero-actions">
-            <a href="contact.html" class="btn btn-primary">Start a Conversation</a>
-          </div>
-        </div>
-        <div class="cta-figure" data-reveal data-reveal-delay="1" aria-hidden="true">
-          <div class="baseline baseline--cta"></div>
-          <img id="ctaChar" src="assets/char-v6/rest.webp?v=7" alt="" width="386" height="500" loading="lazy" decoding="async" />
-        </div>
-      </div>
-    </section>
+      <figure aria-hidden="true" data-r style="--i:2"><img id="ctaChar" src="assets/char-v6/rest.webp?v=7" alt="" width="386" height="500" loading="lazy" decoding="async" /></figure>
+    </div>
+  </section>
   </main>
 
-  <!-- ============ FOOTER ============ -->
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-brand">
+  <footer class="foot">
+    <div class="foot-in">
+      <div>
         <img src="assets/logo-nav.png" alt="Arenthe Holdings" width="200" height="50" loading="lazy" />
-        <p>Midwest development. Excellence in action.</p>
+        <p class="about">Midwest development. Excellence in action.</p>
       </div>
-      <nav class="footer-col" aria-label="Company">
-        <h4>Company</h4>
+      <nav aria-label="Company">
+        <h2>Company</h2>
         <ul>
           <li><a href="#positioning">What We Do</a></li>
           <li><a href="projects.html">Projects</a></li>
@@ -374,33 +194,25 @@
           <li><a href="lenders.html">Lender Information</a></li>
         </ul>
       </nav>
-      <nav class="footer-col" aria-label="Approach">
-        <h4>Approach</h4>
+      <nav aria-label="Approach">
+        <h2>Approach</h2>
         <ul>
           <li><a href="#how">How We Work</a></li>
           <li><a href="#focus">Focus Areas</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
-      <nav class="footer-col" aria-label="Legal">
-        <h4>Legal</h4>
+      <nav aria-label="Legal">
+        <h2>Legal</h2>
         <ul>
           <li><a href="privacy.html">Privacy Policy</a></li>
         </ul>
       </nav>
     </div>
-    <div class="footer-bottom">
-      <span>© 2026 Arenthe Holdings. All rights reserved.</span>
-      <span class="footer-bottom-links">
-        <a href="privacy.html">Privacy</a>
-        <a href="contact.html">Contact</a>
-      </span>
-    </div>
+    <div class="foot-base">© 2026 Arenthe Holdings. All rights reserved.</div>
   </footer>
 
-  <script src="assets/vendor/gsap.min.js?v=3" defer></script>
-  <script src="assets/vendor/ScrollTrigger.min.js?v=3" defer></script>
-  <script src="js/char-v5.js?v=17" defer></script>
-  <script src="js/main.js?v=10" defer></script>
+  <script src="js/char-v5.js?v=18" defer></script>
+  <script src="js/site.js?v=1" defer></script>
 </body>
 </html>

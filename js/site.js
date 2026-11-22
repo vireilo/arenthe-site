@@ -111,6 +111,10 @@
   [].forEach.call(document.querySelectorAll('[data-reel]'), function (reel) {
     var track = reel.querySelector('.reel-track'), items = [].slice.call(track.children), i, k, t;
     for (i = items.length - 1; i > 0; i--) { k = Math.floor(Math.random() * (i + 1)); t = items[i]; items[i] = items[k]; items[k] = t; }
+    // each visit shows a different handful from the whole collection
+    var keep = +reel.getAttribute('data-show') || items.length;
+    items.slice(keep).forEach(function (li) { track.removeChild(li); });
+    items = items.slice(0, keep);
     items.forEach(function (li) { track.appendChild(li); });
     if (still) return;
     // a second copy makes the drift endless

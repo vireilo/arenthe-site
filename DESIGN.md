@@ -61,7 +61,7 @@ Deliberately unlike the Vireilo Ventures site (dark, bold sans, stacked): Arenth
 
 ## Photo reel (About)
 
-Under "The basketball years" a row of photographs drifts slowly from right to left (about 28px a second), in a new shuffled order on every visit. It can be dragged, swiped, wheeled or moved with the arrow keys; it pauses under the pointer and resumes after the hand lets go. Under `prefers-reduced-motion` it does not drift and is simply a scrollable row.
+Under "The basketball years" a row of photographs drifts slowly from right to left (about 28px a second), showing a different random 14 of the collection (31 photos at present), in a new order, on every visit (`data-show` on `.reel`). It can be dragged, swiped, wheeled or moved with the arrow keys; it pauses under the pointer and resumes after the hand lets go. Under `prefers-reduced-motion` it does not drift and is simply a scrollable row.
 
 Clicking or tapping a photo opens the whole, uncropped picture at its natural shape in a full-screen viewer (`<dialog id="lightbox">`), with arrows to step through and Close or Esc to leave; a drag never opens it. The full pictures are in `assets/court/full/` (longest side 1800px) with the same polish.
 

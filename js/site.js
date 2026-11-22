@@ -107,6 +107,48 @@
     [].forEach.call(document.querySelectorAll('[data-r],[data-line],.proof'), function (el) { io.observe(el); });
   }
 
+  // photo reel: a new order on every visit; it drifts slowly, yields to the hand, then carries on
+  [].forEach.call(document.querySelectorAll('[data-reel]'), function (reel) {
+    var track = reel.querySelector('.reel-track'), items = [].slice.call(track.children), i, k, t;
+    for (i = items.length - 1; i > 0; i--) { k = Math.floor(Math.random() * (i + 1)); t = items[i]; items[i] = items[k]; items[k] = t; }
+    items.forEach(function (li) { track.appendChild(li); });
+    if (still) return;
+    // a second copy makes the drift endless
+    items.forEach(function (li) { var c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); track.appendChild(c); });
+    var span = 0, pos = 0, last = 0, held = false, hover = false, onScreen = false, resume = 0, drag = null;
+    function measure() { span = track.children[items.length].offsetLeft - track.children[0].offsetLeft; }
+    function wrap() { if (span && reel.scrollLeft >= span) reel.scrollLeft -= span; else if (span && reel.scrollLeft <= 0 && pos < 0) reel.scrollLeft += span; }
+    function tick(now) {
+      var dt = Math.min(now - last, 60); last = now;
+      if (onScreen && !held && !hover && now > resume) {
+        if (!span) measure();
+        if (Math.abs(reel.scrollLeft - pos) > 2) pos = reel.scrollLeft;   // the hand moved it; carry on from there
+        pos += dt * 0.028;                                                // about 28 pixels a second
+        if (span && pos >= span) pos -= span;
+        reel.scrollLeft = pos;
+      }
+      requestAnimationFrame(tick);
+    }
+    function pause(ms) { resume = performance.now() + ms; }
+    reel.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') hover = true; });
+    reel.addEventListener('pointerleave', function () { hover = false; });
+    reel.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse') { pause(4000); return; }
+      held = true; drag = { x: e.clientX, left: reel.scrollLeft }; reel.classList.add('held'); reel.setPointerCapture(e.pointerId);
+    });
+    reel.addEventListener('pointermove', function (e) { if (drag) { reel.scrollLeft = drag.left - (e.clientX - drag.x); wrap(); } });
+    ['pointerup', 'pointercancel'].forEach(function (n) { reel.addEventListener(n, function () { if (drag) { drag = null; held = false; reel.classList.remove('held'); pause(1500); } }); });
+    reel.addEventListener('touchstart', function () { pause(4000); }, { passive: true });
+    reel.addEventListener('touchmove', function () { pause(4000); }, { passive: true });
+    reel.addEventListener('wheel', function () { pause(2500); }, { passive: true });
+    reel.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { pause(4000); reel.scrollBy({ left: (e.key === 'ArrowRight' ? 1 : -1) * 320, behavior: 'smooth' }); e.preventDefault(); }
+    });
+    window.addEventListener('resize', function () { span = 0; });
+    if (canWatch) new IntersectionObserver(function (es) { onScreen = es[0].isIntersecting; }).observe(reel); else onScreen = true;
+    requestAnimationFrame(function (now) { last = now; tick(now); });
+  });
+
   if (btn && nav) {
     function setOpen(open) {
       nav.classList.toggle('open', open);

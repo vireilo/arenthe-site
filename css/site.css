@@ -159,7 +159,6 @@ a{color:inherit} img{max-width:100%;height:auto;display:block}
 .lightbox::backdrop{background:rgba(14,14,14,.94)}
 .lightbox figure{grid-column:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;height:100%;padding:4.25rem 0 1.5rem;min-height:0}
 .lightbox figure img{max-width:100%;max-height:calc(100dvh - 9rem);width:auto;height:auto;object-fit:contain;background:#1a1713}
-.lightbox figcaption{font-size:var(--t-small);color:rgba(255,255,255,.72);text-align:center;max-width:44em;padding:0 1rem}
 .lb-close,.lb-step{font:inherit;color:var(--white);background:none;border:1px solid rgba(255,255,255,.35);cursor:pointer;min-width:2.75rem;min-height:2.75rem}
 .lb-close:hover,.lb-step:hover{border-color:var(--gold)}
 .lb-close:focus-visible,.lb-step:focus-visible{outline:2px solid var(--gold);outline-offset:3px}

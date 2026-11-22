@@ -158,12 +158,12 @@
   // lightbox: a click on a reel photo opens the whole, uncropped picture; arrows step through the reel's order
   var box = document.getElementById('lightbox');
   if (box && box.showModal) {
-    var big = box.querySelector('img'), cap = box.querySelector('figcaption'), list = [], at = 0, opener = null;
+    var big = box.querySelector('img'), list = [], at = 0, opener = null;
     function show(n) {
       at = (n + list.length) % list.length;
       var b = list[at], thumb = b.querySelector('img');
       big.width = +b.getAttribute('data-w'); big.height = +b.getAttribute('data-h');
-      big.src = b.getAttribute('data-full'); big.alt = thumb.alt; cap.textContent = thumb.alt;
+      big.src = b.getAttribute('data-full'); big.alt = thumb.alt;
       var nx = list[(at + 1) % list.length]; if (nx) new Image().src = nx.getAttribute('data-full');
     }
     document.addEventListener('click', function (e) {

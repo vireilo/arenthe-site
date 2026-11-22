@@ -153,6 +153,10 @@ a{color:inherit} img{max-width:100%;height:auto;display:block}
 .reel-item img{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
 .reel-item:hover img,.reel-item:focus-visible img{transform:scale(1.035)}
 .reel-item:focus-visible{outline:2px solid var(--gold-deep);outline-offset:-2px}
+.reel-hint{max-width:var(--max);margin:1rem auto 0;font-size:var(--t-small);color:var(--ink-3);letter-spacing:.01em}
+.reel-hint::before{content:"";display:inline-block;width:1.5rem;height:1px;background:var(--gold-deep);vertical-align:middle;margin-right:.7rem}
+.reel-hint .by-tap{display:none}
+@media (hover:none){.reel-hint .by-click{display:none}.reel-hint .by-tap{display:inline}}
 /* lightbox: the whole photo, uncropped, at its natural shape */
 .lightbox{border:0;padding:0;margin:0;background:rgba(14,14,14,.94);color:var(--white);width:100vw;height:100vh;height:100dvh;max-width:none;max-height:none;overflow:hidden}
 .lightbox[open]{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center}

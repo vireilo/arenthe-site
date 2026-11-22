@@ -148,6 +148,26 @@ a{color:inherit} img{max-width:100%;height:auto;display:block}
 .reel-track{display:flex;gap:clamp(.75rem,1.4vw,1.25rem);width:max-content;padding:0 var(--pad)}
 .reel-track li{flex:none;width:clamp(15rem,27vw,24rem);aspect-ratio:4/3;background:var(--paper);overflow:hidden}
 .reel-track img{display:block;width:100%;height:100%;object-fit:cover;user-select:none;-webkit-user-drag:none;pointer-events:none}
+.reel-item{display:block;width:100%;height:100%;padding:0;border:0;background:none;cursor:zoom-in}
+.reel.held .reel-item{cursor:grabbing}
+.reel-item img{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.reel-item:hover img,.reel-item:focus-visible img{transform:scale(1.035)}
+.reel-item:focus-visible{outline:2px solid var(--gold-deep);outline-offset:-2px}
+/* lightbox: the whole photo, uncropped, at its natural shape */
+.lightbox{border:0;padding:0;margin:0;background:rgba(14,14,14,.94);color:var(--white);width:100vw;height:100vh;height:100dvh;max-width:none;max-height:none;overflow:hidden}
+.lightbox[open]{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center}
+.lightbox::backdrop{background:rgba(14,14,14,.94)}
+.lightbox figure{grid-column:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;height:100%;padding:4.25rem 0 1.5rem;min-height:0}
+.lightbox figure img{max-width:100%;max-height:calc(100dvh - 9rem);width:auto;height:auto;object-fit:contain;background:#1a1713}
+.lightbox figcaption{font-size:var(--t-small);color:rgba(255,255,255,.72);text-align:center;max-width:44em;padding:0 1rem}
+.lb-close,.lb-step{font:inherit;color:var(--white);background:none;border:1px solid rgba(255,255,255,.35);cursor:pointer;min-width:2.75rem;min-height:2.75rem}
+.lb-close:hover,.lb-step:hover{border-color:var(--gold)}
+.lb-close:focus-visible,.lb-step:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.lb-close{position:absolute;top:1rem;right:var(--pad);padding:.55rem 1.1rem;font-size:var(--t-small);font-weight:600;z-index:1}
+.lb-step{margin:0 clamp(.5rem,2vw,1.5rem);font-size:1.3rem;line-height:1}
+.lb-prev{grid-column:1}.lb-next{grid-column:3}
+@media (max-width:40rem){.lb-step{position:absolute;bottom:1rem;margin:0}.lb-prev{left:var(--pad)}.lb-next{right:var(--pad)}.lightbox figure{grid-column:1/-1;padding:4.25rem .75rem 4.75rem}.lightbox figure img{max-height:calc(100dvh - 13rem)}}
+
 .page-head{padding:8.5rem var(--pad) clamp(2rem,4vw,3.5rem)}
 .page-head h1{font-family:var(--serif);font-weight:500;font-size:var(--t-display);line-height:1;letter-spacing:-.025em}
 .page-head .big{margin-top:1.6rem}

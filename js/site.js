@@ -114,13 +114,13 @@
     items.forEach(function (li) { track.appendChild(li); });
     if (still) return;
     // a second copy makes the drift endless
-    items.forEach(function (li) { var c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); track.appendChild(c); });
-    var span = 0, pos = 0, last = 0, held = false, hover = false, onScreen = false, resume = 0, drag = null;
+    items.forEach(function (li) { var c = li.cloneNode(true), b = c.querySelector('button'); c.setAttribute('aria-hidden', 'true'); if (b) b.tabIndex = -1; track.appendChild(c); });
+    var span = 0, pos = 0, last = 0, held = false, hover = false, onScreen = false, resume = 0, drag = null, moved = 0;
     function measure() { span = track.children[items.length].offsetLeft - track.children[0].offsetLeft; }
     function wrap() { if (span && reel.scrollLeft >= span) reel.scrollLeft -= span; else if (span && reel.scrollLeft <= 0 && pos < 0) reel.scrollLeft += span; }
     function tick(now) {
       var dt = Math.min(now - last, 60); last = now;
-      if (onScreen && !held && !hover && now > resume) {
+      if (onScreen && !held && !hover && now > resume && !document.querySelector('dialog[open]')) {
         if (!span) measure();
         if (Math.abs(reel.scrollLeft - pos) > 2) pos = reel.scrollLeft;   // the hand moved it; carry on from there
         pos += dt * 0.028;                                                // about 28 pixels a second
@@ -134,10 +134,12 @@
     reel.addEventListener('pointerleave', function () { hover = false; });
     reel.addEventListener('pointerdown', function (e) {
       if (e.pointerType !== 'mouse') { pause(4000); return; }
-      held = true; drag = { x: e.clientX, left: reel.scrollLeft }; reel.classList.add('held'); reel.setPointerCapture(e.pointerId);
+      held = true; moved = 0; drag = { x: e.clientX, left: reel.scrollLeft }; reel.classList.add('held');
     });
-    reel.addEventListener('pointermove', function (e) { if (drag) { reel.scrollLeft = drag.left - (e.clientX - drag.x); wrap(); } });
-    ['pointerup', 'pointercancel'].forEach(function (n) { reel.addEventListener(n, function () { if (drag) { drag = null; held = false; reel.classList.remove('held'); pause(1500); } }); });
+    window.addEventListener('pointermove', function (e) { if (drag) { moved = Math.max(moved, Math.abs(e.clientX - drag.x)); reel.scrollLeft = drag.left - (e.clientX - drag.x); wrap(); } });
+    // a drag is not a click: only a still press opens the photo
+    reel.addEventListener('click', function (e) { if (moved > 6) { e.preventDefault(); e.stopPropagation(); moved = 0; } }, true);
+    ['pointerup', 'pointercancel'].forEach(function (n) { window.addEventListener(n, function () { if (drag) { drag = null; held = false; reel.classList.remove('held'); pause(1500); } }); });
     reel.addEventListener('touchstart', function () { pause(4000); }, { passive: true });
     reel.addEventListener('touchmove', function () { pause(4000); }, { passive: true });
     reel.addEventListener('wheel', function () { pause(2500); }, { passive: true });
@@ -148,6 +150,33 @@
     if (canWatch) new IntersectionObserver(function (es) { onScreen = es[0].isIntersecting; }).observe(reel); else onScreen = true;
     requestAnimationFrame(function (now) { last = now; tick(now); });
   });
+
+  // lightbox: a click on a reel photo opens the whole, uncropped picture; arrows step through the reel's order
+  var box = document.getElementById('lightbox');
+  if (box && box.showModal) {
+    var big = box.querySelector('img'), cap = box.querySelector('figcaption'), list = [], at = 0, opener = null;
+    function show(n) {
+      at = (n + list.length) % list.length;
+      var b = list[at], thumb = b.querySelector('img');
+      big.width = +b.getAttribute('data-w'); big.height = +b.getAttribute('data-h');
+      big.src = b.getAttribute('data-full'); big.alt = thumb.alt; cap.textContent = thumb.alt;
+      var nx = list[(at + 1) % list.length]; if (nx) new Image().src = nx.getAttribute('data-full');
+    }
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('.reel-item');
+      if (!b) return;
+      list = [].slice.call(b.closest('.reel-track').querySelectorAll('li:not([aria-hidden]) .reel-item'));
+      var full = b.getAttribute('data-full'), n = 0;
+      list.forEach(function (x, i) { if (x.getAttribute('data-full') === full) n = i; });
+      opener = b; show(n); box.showModal();
+    });
+    box.querySelector('.lb-close').addEventListener('click', function () { box.close(); });
+    box.querySelector('.lb-prev').addEventListener('click', function () { show(at - 1); });
+    box.querySelector('.lb-next').addEventListener('click', function () { show(at + 1); });
+    box.addEventListener('click', function (e) { if (e.target === box || e.target.tagName === 'FIGURE') box.close(); });
+    box.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') show(at + 1); else if (e.key === 'ArrowLeft') show(at - 1); });
+    box.addEventListener('close', function () { big.removeAttribute('src'); if (opener && opener.tabIndex !== -1) opener.focus(); });
+  }
 
   if (btn && nav) {
     function setOpen(open) {
